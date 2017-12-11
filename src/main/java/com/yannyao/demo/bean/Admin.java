@@ -7,9 +7,10 @@ import lombok.Data;
 import java.util.Date;
 
 /**
- * @author YannYao
- * @create 2017-12-10 17:09
- **/
+ * @Author: YannYao
+ * @Description:
+ * @Date Created in 13:03 2017/12/11
+ */
 @Data
 public class Admin {
     private Integer adminId;

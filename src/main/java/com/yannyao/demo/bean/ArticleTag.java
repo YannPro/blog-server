@@ -8,24 +8,23 @@ import java.util.Date;
 
 /**
  * @Author: YannYao
- * @Description:
- * @Date Created in 13:03 2017/12/11
+ * @Description:文章标签
+ * @Date Created in 13:05 2017/12/11
  */
 @Data
-public class User {
-    private Integer userId;
+public class ArticleTag {
+    private Integer tagId;
 
-    private String username;
-
-    private String password;
-
-    private String nickname;
-
-    private String email;
+    private String tagName;
+    /**
+     * 状态0为启用，1为禁用
+     */
+    private Integer tagStatus;
 
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
+
 }

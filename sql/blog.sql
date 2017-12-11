@@ -10,7 +10,7 @@ Target Server Type    : MYSQL
 Target Server Version : 50719
 File Encoding         : 65001
 
-Date: 2017-12-09 16:25:07
+Date: 2017-12-11 12:19:42
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -22,14 +22,16 @@ DROP TABLE IF EXISTS `admin`;
 CREATE TABLE `admin` (
   `admin_id` int(11) NOT NULL AUTO_INCREMENT,
   `admin_name` varchar(255) NOT NULL,
+  `nickname` varchar(255) DEFAULT NULL,
   `password` varchar(255) NOT NULL,
   `email` varchar(255) DEFAULT '849723885@qq.com',
+  `admin_group` int(2) NOT NULL DEFAULT '0',
+  `avatar_image` varchar(255) DEFAULT NULL COMMENT '头像图片',
   `status` int(3) DEFAULT '0' COMMENT '0为启用，1为禁用，2为异常',
   `ip` varchar(15) DEFAULT NULL,
-  `address` varchar(255) DEFAULT NULL,
+  `ip_address` varchar(255) DEFAULT NULL,
   `create_time` datetime DEFAULT NULL,
   `update_time` datetime DEFAULT NULL,
-  `admin_group` int(2) NOT NULL DEFAULT '0',
   PRIMARY KEY (`admin_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
@@ -65,7 +67,9 @@ CREATE TABLE `article` (
   `article_image` varchar(255) DEFAULT 'article.png',
   `article_tag` int(2) DEFAULT '1',
   `article_click` int(11) unsigned DEFAULT '0' COMMENT '点击量',
-  `article_praise` int(11) unsigned DEFAULT '0' COMMENT '点赞数',
+  `article_like` int(11) unsigned DEFAULT '0' COMMENT '点赞数',
+  `article_dislike` int(11) DEFAULT NULL COMMENT '差赞数',
+  `comment_count` int(11) DEFAULT NULL COMMENT '评论数量',
   `article_class` int(11) DEFAULT '1' COMMENT '文章类别',
   `article_commend` int(2) DEFAULT '0' COMMENT '是否推荐：0.不推荐，1.推荐到首页',
   `article_status` int(3) NOT NULL DEFAULT '0' COMMENT '状态，0为显示，1为隐藏，3为删除',
@@ -77,8 +81,23 @@ CREATE TABLE `article` (
 -- ----------------------------
 -- Records of article
 -- ----------------------------
-INSERT INTO `article` VALUES ('1', '大是打算', '3213321萨是顶', '倒萨', 'article.png', '1', '0', '0', '0', '0', '0', '2017-12-09 15:15:01', '2017-12-09 15:17:55');
-INSERT INTO `article` VALUES ('2', '3123', '123', '12', 'article.png', '1', '0', '0', null, '0', '0', '2017-12-09 15:15:09', '2017-12-09 15:17:56');
+INSERT INTO `article` VALUES ('1', '大是打算', '3213321萨是顶', '倒萨', 'article.png', '1', '0', '0', null, null, '0', '0', '0', '2017-12-09 15:15:01', '2017-12-09 15:17:55');
+INSERT INTO `article` VALUES ('2', '3123', '123', '12', 'article.png', '1', '0', '0', null, null, null, '0', '0', '2017-12-09 15:15:09', '2017-12-09 15:17:56');
+
+-- ----------------------------
+-- Table structure for article_article_tag
+-- ----------------------------
+DROP TABLE IF EXISTS `article_article_tag`;
+CREATE TABLE `article_article_tag` (
+  `id` int(11) NOT NULL,
+  `article_id` int(11) DEFAULT NULL,
+  `tag_id` int(11) DEFAULT NULL,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COMMENT='article和tag的关系表';
+
+-- ----------------------------
+-- Records of article_article_tag
+-- ----------------------------
 
 -- ----------------------------
 -- Table structure for article_class
