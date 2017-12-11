@@ -2,6 +2,8 @@ package com.yannyao.demo.bean;
 
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.yannyao.demo.config.CustomJsonDateDeserializer;
+import lombok.AllArgsConstructor;
+import lombok.Data;
 
 import java.util.Date;
 import java.util.List;
@@ -11,6 +13,8 @@ import java.util.List;
  * @Description:
  * @Date Created in 13:03 2017/12/11
  */
+@Data
+@AllArgsConstructor
 public class Article {
     private Integer articleId;
 

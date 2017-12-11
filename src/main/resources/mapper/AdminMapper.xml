@@ -1,0 +1,105 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yannyao.demo.mapper.AdminMapper">
+    <resultMap id="AdminMap" type="com.yannyao.demo.bean.Admin">
+        <id column="admin_id" property="adminId"/>
+        <result column="admin_name" property="adminName"/>
+        <result column="password" property="password"/>
+        <result column="nickname" property="nickname"/>
+        <result column="email" property="email"/>
+        <result column="admin_group" property="adminGroup"/>
+        <result column="avatar_image" property="avatarImage"/>
+        <result column="status" property="status"/>
+        <result column="ip" property="ip"/>
+        <result column="ip_address" property="ipAddress"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+
+    <select id="getList"  resultMap="AdminMap">
+        SELECT * FROM `admin` u
+    </select>
+    <select id="getById"  resultMap="AdminMap">
+        SELECT * FROM `admin` u WHERE `admin_id` = #{_parameter}
+    </select>
+    <select id="getByEmailAndPwd" resultMap="AdminMap">
+        select u.`admin_id`,u.`email`,u.`nickname` from `admin` u
+        <where>
+            <if test="email != null">
+                and u.`email` = #{email}
+            </if>
+            <if test="password != null">
+                and u.`password`=#{password}
+            </if>
+        </where>
+    </select>
+    <select id="searchAdmin" resultMap="AdminMap">
+        SELECT u.*,g.`admin_group_info` FROM `admin` u
+        LEFT JOIN `group` g ON g.`admin_group_id` =  u.`group`
+        <where>
+            <if test="groupValue != null">
+                AND u.`group` = #{groupValue}
+            </if>
+            <if test="searchName != null">
+                AND ${searchName} LIKE #{search}
+            </if>
+        </where>
+        ORDER BY ${sort} LIMIT #{offset},#{limit}
+    </select>
+    <select id="searchAdminCount">
+        SELECT COUNT(*) FROM `admin` u
+        LEFT JOIN `group` g ON g.`admin_group_id` =  u.`group`
+        <where>
+            <if test="groupValue != null">
+                AND u.`group` = #{groupValue}
+            </if>
+            <if test="searchName != null and search != null">
+                AND ${searchName} LIKE #{search}
+            </if>
+        </where>
+        ORDER BY ${sort} LIMIT #{offset},#{limit}
+    </select>
+    <insert id="addAdmin" parameterType="com.yannyao.demo.bean.Admin">
+        INSERT INTO `admin` (`adminname`,`password`,`nickname`,`points`,`group`,`admin_state`,`email`)
+        SELECT #{adminname},#{password},#{nickname},#{points},#{group},#{adminState},#{email} FROM DUAL
+        WHERE NOT EXISTS(SELECT 1 FROM(SELECT 1 FROM `admin` WHERE `adminname`=#{adminname})a)
+    </insert>
+    <update id="updateAdmin" parameterType="com.yannyao.demo.bean.Admin">
+        UPDATE `admin`
+        <set>
+            <if test="adminname != null">
+                `adminname` = #{adminname},
+            </if>
+            <if test="password != null">
+                `password`=#{password},
+            </if>
+            <if test="nickname != null">
+                `nickname` = #{nickname},
+            </if>
+            <if test="group != null">
+                `group` = #{group},
+            </if>
+            <if test="points != null">
+                `points`= #{points},
+            </if>
+            <if test="adminState != null">
+                `admin_state` = #{adminState},
+            </if>
+            <if test="email != null">
+                `email` = #{email}
+            </if>
+        </set>
+        where admin_id=#{adminId}
+        <if test="adminname != null">
+            and not exists(select 1 from(select 1 from `admin` where `adminname`=#{adminname})a)
+        </if>
+    </update>
+
+    <delete id="deleteAdmin">
+        DELETE FROM `admin`
+        WHERE `admin_id`=#{_parameter}
+    </delete>
+
+</mapper>
