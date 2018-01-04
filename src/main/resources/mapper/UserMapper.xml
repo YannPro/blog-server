@@ -2,14 +2,14 @@
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yannyao.blog.mapper.AdminMapper">
-    <resultMap id="AdminMap" type="com.yannyao.blog.bean.Admin">
-        <id column="admin_id" property="adminId"/>
-        <result column="admin_name" property="adminName"/>
+<mapper namespace="com.yannyao.blog.mapper.UserMapper">
+    <resultMap id="UserMap" type="com.yannyao.blog.bean.User">
+        <id column="user_id" property="userId"/>
+        <result column="user_name" property="userName"/>
         <result column="password" property="password"/>
         <result column="nickname" property="nickname"/>
         <result column="email" property="email"/>
-        <result column="admin_group" property="adminGroup"/>
+        <result column="user_group" property="userGroup"/>
         <result column="avatar_image" property="avatarImage"/>
         <result column="status" property="status"/>
         <result column="ip" property="ip"/>
@@ -18,14 +18,14 @@
         <result column="update_time" property="updateTime"/>
     </resultMap>
 
-    <select id="getList"  resultMap="AdminMap">
-        SELECT * FROM `admin` u
+    <select id="getList"  resultMap="UserMap">
+        SELECT * FROM `user` u
     </select>
-    <select id="getById"  resultMap="AdminMap">
-        SELECT * FROM `admin` u WHERE `admin_id` = #{_parameter}
+    <select id="getById"  resultMap="UserMap">
+        SELECT * FROM `user` u WHERE `user_id` = #{_parameter}
     </select>
-    <select id="getByEmailAndPwd" resultMap="AdminMap">
-        select u.`admin_id`,u.`email`,u.`nickname` from `admin` u
+    <select id="getByEmailAndPwd" resultMap="UserMap">
+        select u.`user_id`,u.`email`,u.`nickname` from `user` u
         <where>
             <if test="email != null">
                 and u.`email` = #{email}
@@ -35,9 +35,9 @@
             </if>
         </where>
     </select>
-    <select id="getSearchList" resultMap="AdminMap">
-        SELECT u.*,g.`admin_group_info` FROM `admin` u
-        LEFT JOIN `group` g ON g.`admin_group_id` =  u.`group`
+    <select id="getSearchList" resultMap="UserMap">
+        SELECT u.*,g.`user_group_info` FROM `user` u
+        LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
         <where>
             <if test="groupValue != null">
                 AND u.`group` = #{groupValue}
@@ -49,8 +49,8 @@
         ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
     <select id="getSearchAmount">
-        SELECT COUNT(*) FROM `admin` u
-        LEFT JOIN `group` g ON g.`admin_group_id` =  u.`group`
+        SELECT COUNT(*) FROM `user` u
+        LEFT JOIN `group` g ON g.`user_group_id` =  u.`group`
         <where>
             <if test="groupValue != null">
                 AND u.`group` = #{groupValue}
@@ -61,16 +61,16 @@
         </where>
         ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
-    <insert id="insert" parameterType="com.yannyao.blog.bean.Admin">
-        INSERT INTO `admin` (`adminname`,`password`,`nickname`,`points`,`group`,`admin_state`,`email`)
-        SELECT #{adminname},#{password},#{nickname},#{points},#{group},#{adminState},#{email} FROM DUAL
-        WHERE NOT EXISTS(SELECT 1 FROM(SELECT 1 FROM `admin` WHERE `adminname`=#{adminname})a)
+    <insert id="insert" parameterType="com.yannyao.blog.bean.User">
+        INSERT INTO `user` (`username`,`password`,`nickname`,`points`,`group`,`user_state`,`email`)
+        SELECT #{username},#{password},#{nickname},#{points},#{group},#{userState},#{email} FROM DUAL
+        WHERE NOT EXISTS(SELECT 1 FROM(SELECT 1 FROM `user` WHERE `username`=#{username})a)
     </insert>
-    <update id="update" parameterType="com.yannyao.blog.bean.Admin">
-        UPDATE `admin`
+    <update id="update" parameterType="com.yannyao.blog.bean.User">
+        UPDATE `user`
         <set>
-            <if test="adminname != null">
-                `adminname` = #{adminname},
+            <if test="username != null">
+                `username` = #{username},
             </if>
             <if test="password != null">
                 `password`=#{password},
@@ -84,22 +84,22 @@
             <if test="points != null">
                 `points`= #{points},
             </if>
-            <if test="adminState != null">
-                `admin_state` = #{adminState},
+            <if test="userState != null">
+                `user_state` = #{userState},
             </if>
             <if test="email != null">
                 `email` = #{email}
             </if>
         </set>
-        where admin_id=#{adminId}
-        <if test="adminname != null">
-            and not exists(select 1 from(select 1 from `admin` where `adminname`=#{adminname})a)
+        where user_id=#{userId}
+        <if test="username != null">
+            and not exists(select 1 from(select 1 from `user` where `username`=#{username})a)
         </if>
     </update>
 
     <delete id="delete">
-        DELETE FROM `admin`
-        WHERE `admin_id`=#{_parameter}
+        DELETE FROM `user`
+        WHERE `user_id`=#{_parameter}
     </delete>
 
 </mapper>
