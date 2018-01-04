@@ -44,7 +44,7 @@ public class AdminController {
      */
     @RequestMapping(value = "/getById", method = RequestMethod.POST)
     @ResponseBody
-    public Message getAdminById(@RequestParam("adminId") Integer id){
+    public Message getById(@RequestParam("adminId") Integer id){
         Admin admin = new Admin();
         try {
             admin = adminService.getById(id);
@@ -60,20 +60,20 @@ public class AdminController {
      * @param tableMessage
      * @return
      */
-    @RequestMapping(value = "/getSearchAdmin", method = RequestMethod.POST)
+    @RequestMapping(value = "/getSearchList", method = RequestMethod.POST)
     @ResponseBody
-    public Map getSearchAdmin(@RequestBody AdminTableMessage tableMessage) throws Exception{
+    public Map getSearchList(@RequestBody AdminTableMessage tableMessage) throws Exception{
         System.out.println(tableMessage);
-        return adminService.search(tableMessage).result();
+        return adminService.getSearchList(tableMessage).result();
     }
     /**
      * 新增管理员
      * @param admin
      * @return
      */
-    @RequestMapping(value = "/addAdmin", method = RequestMethod.POST)
+    @RequestMapping(value = "/add", method = RequestMethod.POST)
     @ResponseBody
-    public Message addAdmin(@RequestBody Admin admin){
+    public Message add(@RequestBody Admin admin){
         System.out.println(admin.toString());
         try {
             if(adminService.add(admin)){
@@ -92,9 +92,9 @@ public class AdminController {
      * @param admin
      * @return
      */
-    @RequestMapping(value = "/updateAdmin", method = RequestMethod.POST)
+    @RequestMapping(value = "/update", method = RequestMethod.POST)
     @ResponseBody
-    public Message updateAdmin(@RequestBody Admin admin){
+    public Message update(@RequestBody Admin admin){
         try {
             if(adminService.update(admin)){
                 return new Message(Message.SUCCESS,"修改管理员成功！",null);
@@ -111,10 +111,10 @@ public class AdminController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/deleteAdmin", method = RequestMethod.POST)
+    @RequestMapping(value = "/delete", method = RequestMethod.POST)
     @ResponseBody
-    public Message deleteAdmin(@RequestParam(value = "adminId") Integer id){
-                try {
+    public Message delete(@RequestParam(value = "adminId") Integer id){
+        try {
             if(adminService.delete(id)){
                 return new Message(Message.SUCCESS,"删除管理员成功！",null);
             }else{

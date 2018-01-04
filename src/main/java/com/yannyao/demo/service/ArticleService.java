@@ -10,7 +10,7 @@ import java.util.List;
  * @Description:
  * @Date Created in 13:44 2017/12/11
  */
-public interface AdminService {
+public interface ArticleService {
     /**
      * 获取管理员列表
      * @return

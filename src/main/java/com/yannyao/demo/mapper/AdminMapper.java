@@ -28,7 +28,7 @@ public interface AdminMapper {
      * @param tableMessage
      * @return
      */
-    public List<Admin> search(AdminTableMessage tableMessage) throws Exception;
+    public List<Admin> getSearchList(AdminTableMessage tableMessage) throws Exception;
 
     /**
      * 根据TableMessage获取查询到的管理员数量
@@ -36,7 +36,7 @@ public interface AdminMapper {
      * @return
      * @throws Exception
      */
-    public Integer searchAdminCount(AdminTableMessage tableMessage) throws Exception;
+    public Integer getSearchListAmount(AdminTableMessage tableMessage) throws Exception;
 
     /**
      * 新增一个管理员

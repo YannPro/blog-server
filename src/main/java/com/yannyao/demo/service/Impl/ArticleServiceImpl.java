@@ -16,7 +16,7 @@ import java.util.List;
  * @Date Created in 13:44 2017/12/11
  */
 @Component
-public class AdminServiceImpl implements AdminService{
+public class ArticleServiceImpl implements AdminService{
     @Autowired
     private AdminMapper adminMapper;
     @Override

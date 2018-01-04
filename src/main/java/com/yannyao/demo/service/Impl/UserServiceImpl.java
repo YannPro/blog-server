@@ -16,31 +16,31 @@ import java.util.List;
  * @Date Created in 13:44 2017/12/11
  */
 @Component
-public class AdminServiceImpl implements AdminService{
+public class UserServiceImpl implements AdminService{
     @Autowired
-    private AdminMapper adminMapper;
+    private AdminMapper userMapper;
     @Override
     public List<Admin> getList() {
-        List<Admin> adminList = new ArrayList<>();
+        List<Admin> userList = new ArrayList<>();
         try {
-            adminList = adminMapper.getList();
+            userList = userMapper.getList();
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return adminList;
+        return userList;
     }
 
     @Override
     public Admin getById(Integer id) {
-        Admin admin = new Admin();
+        Admin user = new Admin();
         try {
-            admin = adminMapper.getById(id);
+            user = userMapper.getById(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return admin;
+        return user;
     }
 
     @Override
@@ -49,11 +49,11 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public boolean add(Admin admin) {
+    public boolean add(Admin user) {
 
         boolean state = false;
         try {
-            state = adminMapper.insert(admin) == 1 ? true : false;
+            state = userMapper.insert(user) == 1 ? true : false;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -61,10 +61,10 @@ public class AdminServiceImpl implements AdminService{
     }
 
     @Override
-    public boolean update(Admin admin) {
+    public boolean update(Admin user) {
         boolean state = false;
         try {
-            state = adminMapper.update(admin) == 1 ? true : false;
+            state = userMapper.update(user) == 1 ? true : false;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -75,7 +75,7 @@ public class AdminServiceImpl implements AdminService{
     public boolean delete(Integer id) {
         boolean state = false;
         try {
-            state = adminMapper.delete(id) == 1 ? true : false;
+            state = userMapper.delete(id) == 1 ? true : false;
         }catch (Exception e){
             e.printStackTrace();
         }

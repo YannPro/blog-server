@@ -35,7 +35,7 @@
             </if>
         </where>
     </select>
-    <select id="searchAdmin" resultMap="AdminMap">
+    <select id="getSearchList" resultMap="AdminMap">
         SELECT u.*,g.`admin_group_info` FROM `admin` u
         LEFT JOIN `group` g ON g.`admin_group_id` =  u.`group`
         <where>
@@ -48,7 +48,7 @@
         </where>
         ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
-    <select id="searchAdminCount">
+    <select id="getSearchAmount">
         SELECT COUNT(*) FROM `admin` u
         LEFT JOIN `group` g ON g.`admin_group_id` =  u.`group`
         <where>
@@ -61,12 +61,12 @@
         </where>
         ORDER BY ${sort} LIMIT #{offset},#{limit}
     </select>
-    <insert id="addAdmin" parameterType="com.yannyao.demo.bean.Admin">
+    <insert id="insert" parameterType="com.yannyao.demo.bean.Admin">
         INSERT INTO `admin` (`adminname`,`password`,`nickname`,`points`,`group`,`admin_state`,`email`)
         SELECT #{adminname},#{password},#{nickname},#{points},#{group},#{adminState},#{email} FROM DUAL
         WHERE NOT EXISTS(SELECT 1 FROM(SELECT 1 FROM `admin` WHERE `adminname`=#{adminname})a)
     </insert>
-    <update id="updateAdmin" parameterType="com.yannyao.demo.bean.Admin">
+    <update id="update" parameterType="com.yannyao.demo.bean.Admin">
         UPDATE `admin`
         <set>
             <if test="adminname != null">
@@ -97,7 +97,7 @@
         </if>
     </update>
 
-    <delete id="deleteAdmin">
+    <delete id="delete">
         DELETE FROM `admin`
         WHERE `admin_id`=#{_parameter}
     </delete>
