@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.yannyao.blog.config.CustomJsonDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
@@ -14,14 +15,15 @@ import java.util.Date;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class ArticleClass {
-    private Integer classId;
+    private Integer id;
 
     private String className;
     /**
      * 状态0为启用，1为禁用
      */
-    private Integer classStatus;
+    private Integer status;
 
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;

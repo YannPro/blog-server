@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
 import com.yannyao.blog.config.CustomJsonDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.Date;
 import java.util.List;
@@ -15,52 +16,52 @@ import java.util.List;
  */
 @Data
 @AllArgsConstructor
+@NoArgsConstructor
 public class Article {
-    private Integer articleId;
+    private Integer id;
 
-    private String articleTitle;
+    private String title;
 
-    private String articleContent;
+    private String content;
     /**
      * 添加文章的管理员
      * */
-    private String articleAdmin;
+    private String adminId;
 
-    private String articleImage;
-    /**
-     * article和article_tag关系表的id
-     * */
-    private String articleTagRid;
-    /**
-     * article所属标签数组
-     */
-    private List<ArticleTag> list;
+    private String image;
+
     /**
      * article点击数
      */
-    private Integer articleClick;
+    private Integer click;
 
-    private Integer articleLike;
+    private Integer like;
 
-    private Integer articleDislike;
+    private Integer dislike;
 
-    private Integer articleCommentCount;
+    private Integer commentCount;
     /**
      * 文章所属类目
      */
-    private Integer articleClass;
+    private Integer clazz;
     /**
      * 是否推荐：0.不推荐，1.推荐到首页
      */
-    private Integer articleCommend;
+    private Integer commend;
     /**
      * 状态，0为显示，1为隐藏，3为删除
      */
-    private Integer articleStatus;
+    private Integer status;
 
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
+
+    private ArticleClass articleClass;
+    /**
+     * article所属标签数组
+     * */
+    private List<ArticleTag> tagList;
 }

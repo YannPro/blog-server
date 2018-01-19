@@ -2,6 +2,7 @@ package com.yannyao.blog.mapper;
 
 import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.bean.ArticleTableMessage;
+import com.yannyao.blog.bean.BaseTableMessage;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
@@ -13,7 +14,7 @@ public interface ArticleMapper {
      * @return文章列表
      * @throws Exception
      */
-    public List<Article> getList() throws Exception;
+    public List<Article> getList(Integer page,Integer limit) throws Exception;
 
     /**
      * 根据主键获取文章

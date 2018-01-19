@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yannyao.blog.mapper.ClassMapper">
+    <resultMap id="ClassMap" type="com.yannyao.blog.bean.ArticleClass">
+        <id column="id" property="id"/>
+        <result column="class_name" property="className"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="getList"  resultMap="ClassMap">
+        SELECT * FROM `article_class` a
+    </select>
+    <insert id="insert" parameterType="com.yannyao.blog.bean.ArticleClass">
+        INSERT INTO `article_class` (`class_name`) VALUES (#{className})
+    </insert>
+    <delete id="delete">
+        DELETE FROM `article_class`
+        WHERE `id`=#{_parameter}
+    </delete>
+    <select id="getById"  resultMap="ClassMap">
+        SELECT * FROM `article_class` a WHERE `id` = #{_parameter}
+    </select>
+</mapper>

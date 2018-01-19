@@ -1,9 +1,10 @@
 package com.yannyao.blog.service.Impl;
 
-import com.yannyao.blog.bean.Admin;
-import com.yannyao.blog.bean.AdminTableMessage;
-import com.yannyao.blog.mapper.AdminMapper;
-import com.yannyao.blog.service.AdminService;
+import com.yannyao.blog.bean.*;
+import com.yannyao.blog.mapper.ArticleMapper;
+import com.yannyao.blog.mapper.ClassMapper;
+import com.yannyao.blog.mapper.TagMapper;
+import com.yannyao.blog.service.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -16,44 +17,63 @@ import java.util.List;
  * @Date Created in 13:44 2017/12/11
  */
 @Component
-public class ArticleServiceImpl implements AdminService{
+public class ArticleServiceImpl implements ArticleService{
     @Autowired
-    private AdminMapper adminMapper;
+    private ArticleMapper articleMapper;
+    @Autowired
+    private ClassMapper classMapper;
+    @Autowired
+    private TagMapper tagMapper;
     @Override
-    public List<Admin> getList() {
-        List<Admin> adminList = new ArrayList<>();
+    public List<Article> getList(Integer page,Integer limit) throws Exception {
+        List<Article> articleList = new ArrayList<>();
+        List<ArticleTag> tagList = new ArrayList<>();
+        ArticleClass articleClass = new ArticleClass();
         try {
-            adminList = adminMapper.getList();
+
+            articleList = articleMapper.getList(page, limit);
+            for (Article article: articleList){
+
+                Integer id = article.getId();
+                Integer clazz = article.getClazz();
+                //todo
+                //通过文章id获取她的标签列表
+                article.setTagList(tagMapper.getListByArticleId(id));
+                article.setArticleClass(classMapper.getById(clazz));
+
+            }
+
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return adminList;
+        return articleList;
     }
 
     @Override
-    public Admin getById(Integer id) {
-        Admin admin = new Admin();
+    public Article getById(Integer id) {
+        Article article = new Article();
         try {
-            admin = adminMapper.getById(id);
+            article = articleMapper.getById(id);
         } catch (Exception e) {
             e.printStackTrace();
             return null;
         }
-        return admin;
+        return article;
     }
 
     @Override
-    public AdminTableMessage getSearchList(AdminTableMessage tableMessage) {
+    public BaseTableMessage getSearchList(BaseTableMessage tableMessage) throws Exception {
         return null;
     }
 
+
     @Override
-    public boolean add(Admin admin) {
+    public boolean add(Article article) {
 
         boolean state = false;
         try {
-            state = adminMapper.insert(admin) == 1 ? true : false;
+            state = articleMapper.insert(article) == 1 ? true : false;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -61,10 +81,10 @@ public class ArticleServiceImpl implements AdminService{
     }
 
     @Override
-    public boolean update(Admin admin) {
+    public boolean update(Article article) {
         boolean state = false;
         try {
-            state = adminMapper.update(admin) == 1 ? true : false;
+            state = articleMapper.update(article) == 1 ? true : false;
         }catch (Exception e){
             e.printStackTrace();
         }
@@ -75,15 +95,11 @@ public class ArticleServiceImpl implements AdminService{
     public boolean delete(Integer id) {
         boolean state = false;
         try {
-            state = adminMapper.delete(id) == 1 ? true : false;
+            state = articleMapper.delete(id) == 1 ? true : false;
         }catch (Exception e){
             e.printStackTrace();
         }
         return state;
     }
 
-    @Override
-    public boolean validate(Admin user) {
-        return false;
-    }
 }

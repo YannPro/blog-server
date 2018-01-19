@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yannyao.blog.mapper.TagMapper">
+    <resultMap id="TagMap" type="com.yannyao.blog.bean.ArticleTag">
+        <id column="id" property="id"/>
+        <result column="tag_name" property="tagName"/>
+        <result column="status" property="status"/>
+        <result column="create_time" property="createTime"/>
+        <result column="update_time" property="updateTime"/>
+    </resultMap>
+    <select id="getList"  resultMap="TagMap">
+        SELECT * FROM `article_tag` a
+    </select>
+    <!--todo-->
+    <select id="getListByArticleId"  resultMap="TagMap">
+        SELECT t.*,r.`article_id` FROM `article_tag` t
+        LEFT JOIN `article_article_tag` r ON r.`tag_id` = t.`id`
+        WHERE `article_id` = #{_parameter}
+    </select>
+    <insert id="insert" parameterType="com.yannyao.blog.bean.ArticleClass">
+        INSERT INTO `article_tag` (`tag_name`) VALUES (#{tagName})
+    </insert>
+    <delete id="delete">
+        DELETE FROM `article_tag`
+        WHERE `id`=#{_parameter}
+    </delete>
+
+</mapper>
