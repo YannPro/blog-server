@@ -20,7 +20,7 @@ public class TagController {
      * 获取标签列表
      * @return
      */
-    @RequestMapping(value = "/getList", method = RequestMethod.GET)
+    @RequestMapping(value = "/list", method = RequestMethod.GET)
     @ResponseBody
     public Message getList(){
 

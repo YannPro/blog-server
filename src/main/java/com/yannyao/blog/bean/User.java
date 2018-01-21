@@ -23,6 +23,7 @@ public class User {
 
     private String email;
 
+    private String avatarImage;
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 

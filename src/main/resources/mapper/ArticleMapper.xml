@@ -20,7 +20,41 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
-    <select id="getList"  resultMap="ArticleMap">
+    <select id="getAll"  resultMap="ArticleMap">
         SELECT * FROM `article` a
     </select>
+
+    <select id="getList" resultMap="ArticleMap">
+        SELECT * FROM `article` a
+        LIMIT #{offset},#{limit}
+    </select>
+    <select id="getById"  resultMap="ArticleMap">
+        SELECT * FROM `article` u WHERE `id` = #{_parameter}
+    </select>
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yannyao.blog.bean.Article">
+        INSERT INTO `article` (`title`,`content`,`admin_id`,`image`)
+        VALUES (#{title},#{content},#{adminId},#{image})
+    </insert>
+    <update id="delete">
+        UPDATE `article` SET `status` = 3
+        where `id` = #{_parameter}
+    </update>
+    <update id="update" parameterType="com.yannyao.blog.bean.Article">
+        UPDATE `article`
+        <set>
+            <if test="title != null">
+                `title` = #{title},
+            </if>
+            <if test="content != null">
+                `content`=#{content},
+            </if>
+            <if test="admin_id != null">
+                `admin_id` = #{adminId},
+            </if>
+            <if test="image != null">
+                `image` = #{image}
+            </if>
+        </set>
+        where `id`=#{id}
+    </update>
 </mapper>

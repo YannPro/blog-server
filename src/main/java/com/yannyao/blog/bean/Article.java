@@ -26,7 +26,7 @@ public class Article {
     /**
      * 添加文章的管理员
      * */
-    private String adminId;
+    private Integer adminId;
 
     private String image;
 

@@ -5,6 +5,8 @@ import com.yannyao.blog.mapper.ArticleMapper;
 import com.yannyao.blog.mapper.ClassMapper;
 import com.yannyao.blog.mapper.TagMapper;
 import com.yannyao.blog.service.ArticleService;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -24,14 +26,44 @@ public class ArticleServiceImpl implements ArticleService{
     private ClassMapper classMapper;
     @Autowired
     private TagMapper tagMapper;
+
+    private final Logger logger = LoggerFactory.getLogger(ArticleServiceImpl.class);
     @Override
-    public List<Article> getList(Integer page,Integer limit) throws Exception {
+    public List<Article> getAll() throws Exception {
         List<Article> articleList = new ArrayList<>();
         List<ArticleTag> tagList = new ArrayList<>();
         ArticleClass articleClass = new ArticleClass();
         try {
 
-            articleList = articleMapper.getList(page, limit);
+            articleList = articleMapper.getAll();
+            for (Article article: articleList){
+
+                Integer id = article.getId();
+                Integer clazz = article.getClazz();
+                //todo
+                //通过文章id获取她的标签列表
+                article.setTagList(tagMapper.getListByArticleId(id));
+                article.setArticleClass(classMapper.getById(clazz));
+
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return articleList;
+    }
+
+    @Override
+    public List<Article> getList(int page, int limit) throws Exception {
+        List<Article> articleList = new ArrayList<>();
+        List<ArticleTag> tagList = new ArrayList<>();
+        ArticleClass articleClass = new ArticleClass();
+        BaseTableMessage tableMessage = new BaseTableMessage();
+        try {
+            tableMessage.setLimit(limit);
+            tableMessage.setOffset((page-1)*limit);
+            articleList = articleMapper.getList(tableMessage);
             for (Article article: articleList){
 
                 Integer id = article.getId();
@@ -55,6 +87,9 @@ public class ArticleServiceImpl implements ArticleService{
         Article article = new Article();
         try {
             article = articleMapper.getById(id);
+            Integer clazz = article.getClazz();
+            article.setTagList(tagMapper.getListByArticleId(id));
+            article.setArticleClass(classMapper.getById(clazz));
         } catch (Exception e) {
             e.printStackTrace();
             return null;
@@ -69,26 +104,31 @@ public class ArticleServiceImpl implements ArticleService{
 
 
     @Override
-    public boolean add(Article article) {
-
-        boolean state = false;
+    public Article add(Article article) {
+        Article result = null;
         try {
-            state = articleMapper.insert(article) == 1 ? true : false;
+            articleMapper.insert(article);
+            result = articleMapper.getById(article.getId());
         }catch (Exception e){
             e.printStackTrace();
         }
-        return state;
+        return result;
     }
 
     @Override
-    public boolean update(Article article) {
-        boolean state = false;
+    public Article update(Article article) {
+        Article result = null;
         try {
-            state = articleMapper.update(article) == 1 ? true : false;
+            int row = articleMapper.update(article);
+            if(row >= 1){
+                result = articleMapper.getById(article.getId());
+            }else{
+                return null;
+            }
         }catch (Exception e){
             e.printStackTrace();
         }
-        return state;
+        return result;
     }
 
     @Override

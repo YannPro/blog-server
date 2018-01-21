@@ -14,7 +14,7 @@ public interface ArticleMapper {
      * @return文章列表
      * @throws Exception
      */
-    public List<Article> getList(Integer page,Integer limit) throws Exception;
+    public List<Article> getAll() throws Exception;
 
     /**
      * 根据主键获取文章
@@ -29,7 +29,7 @@ public interface ArticleMapper {
      * @param tableMessage
      * @return
      */
-    public List<Article> search(ArticleTableMessage tableMessage) throws Exception;
+    public List<Article> getList(BaseTableMessage tableMessage) throws Exception;
 
     /**
      * 根据TableMessage获取查询到的文章数量
@@ -52,12 +52,8 @@ public interface ArticleMapper {
     public int update(Article article) throws Exception;
 
     /**
-     * 修改一个文章
+     * 删除一个文章
      */
     public int delete(Integer id) throws Exception;
-    /**
-     * 通过邮箱和密码获得文章
-     */
-    public Article getByEmailAndPwd(Article article) throws Exception;
 
 }

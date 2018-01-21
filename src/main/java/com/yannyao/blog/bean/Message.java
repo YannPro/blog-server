@@ -18,7 +18,7 @@ public class Message {
     public static final int ERROR = 0;
     private int status;
     private String message;
-    private Object result;
+    private Object data;
 
     public String toJson(){
         ObjectMapper objectMapper = new ObjectMapper();
