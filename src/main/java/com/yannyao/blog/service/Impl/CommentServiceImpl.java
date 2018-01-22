@@ -104,6 +104,16 @@ public class CommentServiceImpl implements CommentService{
         }
         return result;
     }
+    @Override
+    public boolean delete(Integer id) {
+        boolean state = false;
+        try {
+            state = commentMapper.delete(id) == 1 ? true : false;
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return state;
+    }
 //
 //    @Override
 //    public Article getById(Integer id) {
@@ -161,15 +171,6 @@ public class CommentServiceImpl implements CommentService{
 //        return result;
 //    }
 //
-//    @Override
-//    public boolean delete(Integer id) {
-//        boolean state = false;
-//        try {
-//            state = articleMapper.delete(id) == 1 ? true : false;
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-//        return state;
-//    }
+
 
 }

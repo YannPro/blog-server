@@ -32,5 +32,23 @@ public class CommentController {
             return new Message(Message.ERROR,"获取文章评论失败！",null);
         }
     }
-
+    /**
+     * 删除文章
+     * @param id
+     * @return
+     */
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
+    @ResponseBody
+    public Message delete(@PathVariable(value = "id") Integer id){
+        try {
+            if(commentService.delete(id)){
+                return new Message(Message.SUCCESS,"删除文章评论成功！",null);
+            }else{
+                return new Message(Message.ERROR,"删除文章评论失败！",null);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(Message.ERROR,"删除文章评论失败！",null);
+        }
+    }
 }

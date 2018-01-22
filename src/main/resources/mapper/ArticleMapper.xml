@@ -48,7 +48,7 @@
             <if test="content != null">
                 `content`=#{content},
             </if>
-            <if test="admin_id != null">
+            <if test="adminId != null">
                 `admin_id` = #{adminId},
             </if>
             <if test="image != null">

@@ -6,11 +6,11 @@
     <resultMap id="CommentMap" type="com.yannyao.blog.bean.ArticleComment">
         <id column="id" property="id"/>
         <result column="content" property="content"/>
-        <result column="status" property="status"/>
         <result column="article_id" property="articleId"/>
         <result column="user_id" property="userId"/>
         <result column="parent_comment_id" property="parentCommentId"/>
         <result column="reply_user_id" property="replyUserId"/>
+        <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
     </resultMap>
 
@@ -29,6 +29,10 @@
     </select>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yannyao.blog.bean.ArticleComment">
         INSERT INTO `article_comment` (`content`,`article_id`,`user_id`,`parent_comment_id`,`reply_user_id`)
-        VALUES (#{content},#{article_id},#{user_id},#{parent_comment_id},#{reply_user_id})
+        VALUES (#{content},#{articleId},#{userId},#{parentCommentId},#{replyUserId})
     </insert>
+    <update id="delete">
+        UPDATE `article_comment` SET `status` = 1
+        where `id` = #{_parameter}
+    </update>
 </mapper>

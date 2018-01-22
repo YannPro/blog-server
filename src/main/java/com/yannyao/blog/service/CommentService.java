@@ -66,12 +66,12 @@ public interface CommentService {
 //     */
 //    public Article update(ArticleComment comment) throws Exception;
 //
-//    /**
-//     * 删除一个文章评论
-//     * @param id
-//     * @return
-//     * @throws Exception
-//     */
-//    public boolean delete(Integer id) throws Exception;
+    /**
+     * 删除一个文章评论
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public boolean delete(Integer id) throws Exception;
 
 }
