@@ -35,7 +35,7 @@ public class TagController {
         return new Message(Message.SUCCESS,"获取标签列表成功！",tagList);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public Message add(@RequestBody ArticleTag tag){
         System.out.println(tag.toString());
@@ -56,9 +56,9 @@ public class TagController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Message delete(@RequestParam(value = "adminId") Integer id){
+    public Message delete(@PathVariable(value = "id") Integer id){
         try {
             if(tagService.delete(id)){
                 return new Message(Message.SUCCESS,"删除标签成功！",null);

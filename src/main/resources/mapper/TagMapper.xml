@@ -12,6 +12,7 @@
     </resultMap>
     <select id="getList"  resultMap="TagMap">
         SELECT * FROM `article_tag` a
+        WHERE `status` = 0
     </select>
     <!--todo-->
     <select id="getListByArticleId"  resultMap="TagMap">
@@ -22,9 +23,8 @@
     <insert id="insert" parameterType="com.yannyao.blog.bean.ArticleClass">
         INSERT INTO `article_tag` (`tag_name`) VALUES (#{tagName})
     </insert>
-    <delete id="delete">
-        DELETE FROM `article_tag`
-        WHERE `id`=#{_parameter}
-    </delete>
-
+    <update id="delete">
+        UPDATE `article_tag` SET `status` = 1
+        where `id` = #{_parameter}
+    </update>
 </mapper>

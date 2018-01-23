@@ -1,9 +1,13 @@
 package com.yannyao.blog.controller;
 
+import com.yannyao.blog.bean.ArticleClass;
 import com.yannyao.blog.bean.ArticleComment;
+import com.yannyao.blog.bean.ArticleTag;
 import com.yannyao.blog.bean.Message;
 import com.yannyao.blog.service.ArticleService;
+import com.yannyao.blog.service.ClassService;
 import com.yannyao.blog.service.CommentService;
+import com.yannyao.blog.service.TagService;
 import io.swagger.annotations.Api;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -25,6 +29,10 @@ public class ApiController {
     private ArticleService articleService;
     @Autowired
     private CommentService commentService;
+    @Autowired
+    private ClassService classService;
+    @Autowired
+    private TagService tagService;
 
     /**
      * 查询一篇文章的所有评论
@@ -68,4 +76,43 @@ public class ApiController {
             return new Message(Message.ERROR,"新增文章评论失败！",null);
         }
     }
+
+    /**
+     * 获取类别列表
+     * @return
+     */
+    @RequestMapping(value = "/class/all", method = RequestMethod.GET)
+    @ResponseBody
+    public Message getClassList(){
+
+        List<ArticleClass> classList = new ArrayList<>();
+
+        try {
+            classList = classService.getList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(Message.ERROR,"获取类别列表失败！",null);
+        }
+        return new Message(Message.SUCCESS,"获取类别列表成功！",classList);
+    }
+
+    /**
+     * 获取标签列表
+     * @return
+     */
+    @RequestMapping(value = "/all", method = RequestMethod.GET)
+    @ResponseBody
+    public Message getTagList(){
+
+        List<ArticleTag> tagList = new ArrayList<>();
+
+        try {
+            tagList = tagService.getList();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(Message.ERROR,"获取标签列表失败！",null);
+        }
+        return new Message(Message.SUCCESS,"获取标签列表成功！",tagList);
+    }
+
 }

@@ -6,6 +6,7 @@ import com.yannyao.blog.service.ClassService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.websocket.server.PathParam;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -35,7 +36,7 @@ public class ClassController {
         return new Message(Message.SUCCESS,"获取类别列表成功！",classList);
     }
 
-    @RequestMapping(value = "/add", method = RequestMethod.POST)
+    @RequestMapping(value = "", method = RequestMethod.POST)
     @ResponseBody
     public Message add(@RequestBody ArticleClass clazz){
         System.out.println(clazz.toString());
@@ -56,9 +57,9 @@ public class ClassController {
      * @param id
      * @return
      */
-    @RequestMapping(value = "/delete", method = RequestMethod.POST)
+    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
-    public Message delete(@RequestParam(value = "adminId") Integer id){
+    public Message delete(@PathVariable(value = "id") Integer id){
         try {
             if(classService.delete(id)){
                 return new Message(Message.SUCCESS,"删除类别成功！",null);

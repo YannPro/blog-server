@@ -12,15 +12,16 @@
     </resultMap>
     <select id="getList"  resultMap="ClassMap">
         SELECT * FROM `article_class` a
+        WHERE `status` = 0
+    </select>
+    <select id="getById"  resultMap="ClassMap">
+        SELECT * FROM `article_class` a WHERE `id` = #{_parameter}
     </select>
     <insert id="insert" parameterType="com.yannyao.blog.bean.ArticleClass">
         INSERT INTO `article_class` (`class_name`) VALUES (#{className})
     </insert>
-    <delete id="delete">
-        DELETE FROM `article_class`
-        WHERE `id`=#{_parameter}
-    </delete>
-    <select id="getById"  resultMap="ClassMap">
-        SELECT * FROM `article_class` a WHERE `id` = #{_parameter}
-    </select>
+    <update id="delete">
+        UPDATE `article_class` SET `status` = 1
+        where `id` = #{_parameter}
+    </update>
 </mapper>
