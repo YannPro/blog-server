@@ -2,7 +2,7 @@ import babelpolyfill from 'babel-polyfill'
 import Vue from 'vue'
 import App from './App'
 import ElementUI from 'element-ui'
-import 'element-ui/lib/theme-default/index.css'
+import 'element-ui/lib/theme-chalk/index.css'
 import VueRouter from 'vue-router'
 import store from './vuex/store'
 import Vuex from 'vuex'
@@ -19,10 +19,13 @@ import Page4 from './pages/nav2/Page4.vue'
 import Page5 from './pages/nav2/Page5.vue'
 import Page6 from './pages/nav3/Page6.vue'
 import echarts from './pages/charts/echarts.vue'
+import Publish from './pages/publish/index.vue'
+import ClassAndTag from './pages/ClassAndTag/index.vue'
+
 
 // start mock
-import Mock from './mock';
-Mock.bootstrap();
+// import Mock from './mock';
+//Mock.bootstrap();
 
 Vue.use(ElementUI)
 Vue.use(VueRouter)
@@ -76,6 +79,26 @@ const routes = [
     iconCls: 'fa fa-bar-chart',
     children: [
       { path: '/echarts', component: echarts, name: 'echarts' }
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    iconCls: 'fa fa-address-card',
+    leaf: true,//只有一个节点
+    children: [
+      { path: '/publish', component: Publish, name: '文章发布' }
+    ]
+  },
+  {
+    path: '/',
+    component: Home,
+    name: '',
+    iconCls: 'fa fa-address-card',
+    leaf: true,//只有一个节点
+    children: [
+      { path: '/category', component: ClassAndTag, name: '分类/标签' }
     ]
   }
 ]
