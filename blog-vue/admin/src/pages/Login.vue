@@ -1,109 +1,224 @@
-<template>
-  <el-form :model="ruleForm2" :rules="rules2" ref="ruleForm2" label-position="left" label-width="0px" class="demo-ruleForm card-box loginform">
-    <h3 class="title">系统登录</h3>
-    <el-form-item prop="account">
-      <el-input type="text" v-model="ruleForm2.account" auto-complete="off" placeholder="账号"></el-input>
-    </el-form-item>
-    <el-form-item prop="checkPass">
-      <el-input type="password" v-model="ruleForm2.checkPass" auto-complete="off" placeholder="密码"></el-input>
-    </el-form-item>
-    <el-checkbox v-model="checked" checked style="margin:0px 0px 35px 0px;">记住密码</el-checkbox>
-<el-form-item style="width:100%;">
-<el-button type="primary" style="width:100%;" @click.native.prevent="handleSubmit2" :loading="logining">登录</el-button>
-<!--<el-button @click.native.prevent="handleReset2">重置</el-button>-->
-</el-form-item>
-</el-form>
+<template lang="html">
+  <el-row>
+    <el-col :span="12" :offset="6">
+      <div class="login">
+      <el-row slot="body" :gutter="0" >
+      <el-col :span="24" :xs="24" :sm="16" :md="16" :lg="16">
+        <div class="login-form">
+          <div class="card-block">
+            <h1>博客管理系统</h1>
+            <p class="text-muted">任意用户名/密码登录</p>
+            <div class="input-group m-b-1">
+              <span class="input-group-addon"><i class="fa fa-user"></i></span>
+              <input type="text" class="form-control" placeholder="user name" v-model="form.username">
+            </div>
+            <div class="input-group m-b-2">
+              <span class="input-group-addon"><i class="fa fa-lock"></i></span>
+              <input type="password" class="form-control" placeholder="password" v-model="form.password"
+                     @keyup.enter="login">
+            </div>
+            <div class="row">
+              <el-row>
+                <el-col :span="12">
+                  <el-button type="primary" class="btn btn-primary p-x-2" @click="login">登录</el-button>
+                </el-col>
+                <el-col :span="12">
+                  <el-button type="button" class="btn btn-link forgot" style="float:right;">忘记密码?</el-button>
+                </el-col>
+              </el-row>
+            </div>
+          </div>
+        </div>
+        </el-col>
+      <el-col :span="24" :xs="24" :sm="8" :md="8" :lg="8">
+        <div class="login-register">
+          <div class="card-block">
+            <h2>注册</h2>
+            <p>平台暂时只支持使用公司邮箱注册.</p>
+            <el-button type="info" class="btn btn-primary active m-t-1"> 马上注册</el-button>
+          </div>
+        </div>
+        </el-col>
+        </el-row>
+      </div>
+    </el-col>
+  </el-row>
 </template>
 
 <script>
-  import { requestLogin } from '../api/api';
-  import NProgress from 'nprogress'
+  import types from '../store/mutation-types'
+  import * as api from "../api"
+  import  auth from '../common/auth'
+  import * as sysApi from '../services/sys'
+  import {mapGetters, mapActions, mapMutations} from 'vuex'
+
   export default {
+    name: 'login',
     data() {
       return {
-        logining: false,
-        ruleForm2: {
-          account: 'admin',
-          checkPass: '123456'
-        },
-        rules2: {
-          account: [
-            { required: true, message: '请输入账号', trigger: 'blur' },
-            //{ validator: validaePass }
-          ],
-          checkPass: [
-            { required: true, message: '请输入密码', trigger: 'blur' },
-            //{ validator: validaePass2 }
-          ]
-        },
-        checked: true
-      };
+        form: {
+          username: '',
+          password: ''
+        }
+      }
     },
+    components: {},
     methods: {
-      handleReset2() {
-        this.$refs.ruleForm2.resetFields();
+      ...mapMutations({
+        setUserInfo: types.SET_USER_INFO
+      }),
+      ...mapActions({
+        loadMenuList: 'loadMenuList' // 映射 this.load() 为 this.$store.dispatch('loadMenuList')
+      }),
+      login(){
+        var redirectUrl = '/index';
+        if (this.$route.query && this.$route.query != null && this.$route.query.redirect && this.$route.query.redirect != null) {
+          redirectUrl = this.$route.query.redirect;
+        }
+        sysApi.login(this.form).then(res => {
+          this.loginSuccess({...res,redirectUrl})
+        })
       },
-      handleSubmit2(ev) {
-        this.$router.push({ path: '/table' });
-        // var _this = this;
-        // this.$refs.ruleForm2.validate((valid) => {
-        //   if (valid) {
-        //     //_this.$router.replace('/table');
-        //     this.logining = true;
-        //     NProgress.start();
-        //     var loginParams = { username: this.ruleForm2.account, password: this.ruleForm2.checkPass };
-        //     requestLogin(loginParams).then(data => {
-        //       this.logining = false;
-        //       NProgress.done();
-        //       let { msg, code, user } = data;
-        //       if (code !== 200) {
-        //         this.$notify({
-        //           title: '错误',
-        //           message: msg,
-        //           type: 'error'
-        //         });
-        //       } else {
-        //         localStorage.setItem('user', JSON.stringify(user));
-        //         if (this.$route.query.redirect) {
-        //           this.$router.push({ path: this.$route.query.redirect });
-        //         } else {
-        //           this.$router.push({ path: '/table' });
-        //         }
-        //       }
-        //     });
-        //   } else {
-        //     console.log('error submit!!');
-        //     return false;
-        //   }
-        // });
+      loginSuccess({sid,user,redirectUrl}){
+        auth.login(sid);
+        window.sessionStorage.setItem("user-info", JSON.stringify(user));
+        this.setUserInfo(user);
+        this.$http.defaults.headers.common['authSid'] = sid;
+        this.loadMenuList();
+        redirectUrl && this.$router.push({path: redirectUrl});
       }
     }
   }
 </script>
 
-<style scoped>
-  .card-box {
-    padding: 20px;
-    /*box-shadow: 0 0px 8px 0 rgba(0, 0, 0, 0.06), 0 1px 0px 0 rgba(0, 0, 0, 0.02);*/
-    -webkit-border-radius: 5px;
-    border-radius: 5px;
-    -moz-border-radius: 5px;
-    background-clip: padding-box;
-    margin-bottom: 20px;
-    background-color: #F9FAFC;
-    margin: 180px auto;
-    width: 400px;
-    border: 2px solid #8492A6;
+<style>
+  .login {
+    margin-top: 160px;
+    width: 100%;
+    border: 1px solid #cfd8dc;
+    margin-right: auto !important;
+    margin-left: auto !important;
+    display: table;
+    table-layout: fixed;
+    background-color: #20a8d8;
   }
-  
-  .title {
-    margin: 0px auto 40px auto;
+
+  .login .el-button {
+    border-radius: 0;
+  }
+
+  .login .el-button.forgot, .login .el-button.forgot:hover {
+    border: none;
+  }
+
+  .login .login-form {
+    background-color: #FFFFFF;
+    width: 100%;
+    height: 100%;
+    display: block;
+
+  }
+
+  .login .login-form .card-block {
+    padding: 35px;
+  }
+
+  .login .login-form .card-block p {
+    margin: 15px 0;
+  }
+
+  .input-group {
+    width: 100%;
+    display: table;
+    border-collapse: separate;
+    margin-bottom: 20px !important;
+  }
+
+  .input-group, .input-group-btn, .input-group-btn > .btn, .navbar {
+    position: relative;
+  }
+
+  .input-group-addon:not(:last-child) {
+    border-right: 0;
+  }
+
+  .input-group-addon, .input-group-btn {
+    min-width: 40px;
+    white-space: nowrap;
+    vertical-align: middle;
+    width: 1%;
+  }
+
+  .btn-link:focus, .btn-link:hover {
+    color: #167495;
+    text-decoration: underline;
+    background-color: transparent;
+  }
+
+  .btn-link, .btn-link:active, .btn-link:focus, .btn-link:hover {
+    border-color: transparent;
+  }
+
+  .btn.focus, .btn:focus, .btn:hover {
+    text-decoration: none;
+  }
+
+  .input-group-addon {
+    padding: .5rem .75rem;
+    margin-bottom: 0;
+    font-size: .875rem;
+    font-weight: 400;
+    line-height: 1.75rem;
+    color: #607d8b;
     text-align: center;
-    color: #505458;
+    background-color: #cfd8dc;
+    border: 1px solid rgba(0, 0, 0, .15);
   }
-  
-  .loginform {
-    width: 350px;
-    padding: 35px 35px 15px 35px;
+
+  .input-group .form-control, .input-group-addon, .input-group-btn {
+    display: table-cell;
+  }
+
+  .input-group .form-control {
+    position: relative;
+    z-index: 2;
+    float: left;
+    margin-bottom: 0;
+  }
+
+  .form-control {
+    width: 90%;
+    padding: .5rem .75rem;
+    font-size: 1.5rem;
+    line-height: 1.75rem;
+    color: #607d8b;
+    background: #fff none;
+    background-clip: padding-box;
+    border: 1px solid rgba(0, 0, 0, .15);
+    transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  }
+
+  .login .login-form .card-block .row {
+    display: block;
+    margin: 15px 0;
+  }
+
+  .login .login-register {
+    width: 100%;
+    height: 100%;
+    display: block;
+    background-color: #20a8d8;
+    color: #fff;
+  }
+
+  .login .login-register .card-block {
+    text-align: center !important;
+    padding: 30px;
+  }
+
+  .login .login-register .card-block p {
+    text-align: left !important;
+    margin: 15px 0;
+    height: 100px;
   }
 </style>

@@ -1,13 +1,41 @@
 <template>
-	<section>文章发布页面
-
+	<section id="publish">文章发布页面
 		<el-row :gutter="20">
-			<el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
-			<el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
+			<el-col :span="12">
+          <MDInput name="name">
+            标题
+          </MDInput>
+      </el-col>
+			<el-col :span="12">
+          <MDInput name="name">
+            标题
+          </MDInput>
+      </el-col>
 		</el-row>
 		<el-row :gutter="20">
-			<el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
-			<el-col :span="12"><div class="grid-content bg-purple"></div></el-col>
+			<el-col :span="12">
+          <TagsInput element-id="tags"
+            :existing-tags="{ 
+                'web-development': 'Web Development',
+                'php': 'PHP',
+                'javascript': 'JavaScript',
+            }"
+            :typeahead="true">
+          </TagsInput>
+      </el-col>
+      <el-col :span="12">
+        <TagsInput element-id="tags"
+            :existing-tags="{ 
+                'web-development': 'Web Development',
+                'php': 'PHP',
+                'javascript': 'JavaScript',
+                'java': 'java',
+                'Java22': 'Java22',
+            }"
+            :typeahead="true">
+          </TagsInput>
+      </el-col>
+			<!-- <el-col :span="12"><div class="grid-content bg-purple"></div></el-col> -->
 		</el-row>
 		<el-row>
 			<div class="editor-container">
@@ -18,6 +46,9 @@
 </template>
 <script>
 import MarkdownEditor from '../../components/MarkdownEditor'
+import MDInput  from '../../components/MDInput'
+import TagsInput from '../../components/TagsInput'
+
 const content = `
 **this is test**
 * vue
@@ -27,7 +58,7 @@ const content = `
 `
 export default {
   name: 'markdown-demo',
-  components: { MarkdownEditor },
+  components: { MarkdownEditor, MDInput, TagsInput},
   data() {
     return {
       content: content,
@@ -46,6 +77,9 @@ export default {
 </script>
 
 <style>
+  #publish{
+    padding: 20px;
+  }
   .el-row {
     margin-bottom: 20px;
     &:last-child {
