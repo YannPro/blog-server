@@ -13,6 +13,7 @@
     "echarts": "^3.3.2",
     "flex.css": "^1.1.6",
     "nprogress": "^0.2.0",
+    "simplemde": "^1.11.2",
     "vue": "^2.5.2",
     "vuex": "^2.0.0-rc.6"
   },
