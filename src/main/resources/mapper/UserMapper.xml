@@ -22,6 +22,9 @@
     <select id="getById"  resultMap="UserMap">
         SELECT * FROM `user` u WHERE `id` = #{_parameter}
     </select>
+    <select id="getByUserName"  resultMap="UserMap">
+        SELECT * FROM `user` u WHERE `username` = #{_parameter}
+    </select>
     <select id="getByEmailAndPwd" resultMap="UserMap">
         select u.`id`,u.`email`,u.`nickname` from `user` u
         <where>

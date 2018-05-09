@@ -20,7 +20,7 @@ public class UserServiceImpl implements UserService{
     @Autowired
     private UserMapper userMapper;
     @Override
-    public List<User> getList() {
+    public List<User> getList() throws Exception{
         List<User> userList = new ArrayList<>();
         try {
             userList = userMapper.getList();
@@ -32,7 +32,7 @@ public class UserServiceImpl implements UserService{
     }
 
     @Override
-    public User getById(Integer id) {
+    public User getById(Integer id) throws Exception{
         User user = new User();
         try {
             user = userMapper.getById(id);
@@ -42,7 +42,17 @@ public class UserServiceImpl implements UserService{
         }
         return user;
     }
-
+    @Override
+    public User getByUsername(String username) throws Exception{
+        User user = new User();
+        try {
+            user = userMapper.getByUserName(username);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return user;
+    }
     @Override
     public BaseTableMessage getSearchList(BaseTableMessage tableMessage) {
         return null;
