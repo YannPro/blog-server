@@ -6,6 +6,7 @@
     <resultMap id="ArticleMap" type="com.yannyao.blog.bean.Article">
         <id column="id" property="id"/>
         <result column="title" property="title"/>
+        <result column="description" property="description"/>
         <result column="content" property="content"/>
         <result column="admin_id" property="adminId"/>
         <result column="image" property="image"/>
@@ -32,8 +33,8 @@
         SELECT * FROM `article` u WHERE `id` = #{_parameter}
     </select>
     <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yannyao.blog.bean.Article">
-        INSERT INTO `article` (`title`,`content`,`admin_id`,`image`)
-        VALUES (#{title},#{content},#{adminId},#{image})
+        INSERT INTO `article` (`title`,`description`,`content`,`admin_id`,`image`)
+        VALUES (#{title},#{description},#{content},#{adminId},#{image})
     </insert>
     <update id="delete">
         UPDATE `article` SET `status` = 3
@@ -44,6 +45,9 @@
         <set>
             <if test="title != null">
                 `title` = #{title},
+            </if>
+            <if test="description != null">
+                `description` = #{description},
             </if>
             <if test="content != null">
                 `content`=#{content},

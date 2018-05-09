@@ -1,0 +1,64 @@
+{
+  "settings": {
+    "number_of_replicas": 0,
+    "number_of_shards": 5
+  },
+  "mappings": {
+    "article": {
+      "dynamic": false,
+      "properties": {
+        "id": {
+          "type": "integer"
+        },
+        "title": {
+          "type": "text",
+          "index": "true"
+        },
+        "adminId": {
+          "type": "integer"
+        },
+        "description": {
+          "type": "text",
+          "index": "true"
+        },
+        "content": {
+          "type": "text",
+          "index": "true"
+        },
+        "image": {
+          "type": "text",
+          "index": "true"
+        },
+        "click": {
+          "type": "integer"
+        },
+        "like": {
+          "type": "integer"
+        },
+        "dislike": {
+          "type": "integer"
+        },
+        "commentCount": {
+          "type": "integer"
+        },
+        "class": {
+          "type": "integer"
+        },
+        "commend": {
+          "type": "integer"
+        },
+        "status": {
+          "type": "integer"
+        },
+        "createTime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        },
+        "updateTime": {
+          "type": "date",
+          "format": "strict_date_optional_time||epoch_millis"
+        }
+      }
+    }
+  }
+}

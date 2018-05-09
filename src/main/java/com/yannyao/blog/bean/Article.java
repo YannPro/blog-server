@@ -22,6 +22,8 @@ public class Article {
 
     private String title;
 
+    private String description;
+
     private String content;
     /**
      * 添加文章的管理员
