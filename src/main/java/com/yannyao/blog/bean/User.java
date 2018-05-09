@@ -5,6 +5,7 @@ import com.yannyao.blog.config.CustomJsonDateDeserializer;
 import lombok.Data;
 
 import java.util.Date;
+import java.util.List;
 
 /**
  * @Author: YannYao
@@ -29,4 +30,6 @@ public class User {
 
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
+
+    private List<Role> roles;
 }

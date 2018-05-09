@@ -25,6 +25,13 @@ public interface UserService {
      * @throws Exception
      */
     public User getById(Integer id) throws Exception;
+    /**
+     * 根据用户名获取用户
+     * @param username
+     * @return
+     * @throws Exception
+     */
+    public User getByUsername(String username) throws Exception;
 
     /**
      * 根据TableMessage获取查询到的用户

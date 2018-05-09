@@ -24,6 +24,14 @@ public interface UserMapper {
     public User getById(Integer id) throws Exception;
 
     /**
+     * 根据用户名获取用户
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public User getByUserName(String username) throws Exception;
+
+    /**
      * 根据TableMessage和用户组别查询用户
      * @param tableMessage
      * @return

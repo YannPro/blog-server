@@ -11,6 +11,13 @@ spring:
     port: 3306
     database: blog
 
+  #es
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-nodes: 127.0.0.1:9300
+
   thymeleaf:
     cache: false
     check-template: false
@@ -32,4 +39,3 @@ com:
     custom:
       windows-path: d:/yannyao
       linux-path: /yannyao
-
