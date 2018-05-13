@@ -55,7 +55,24 @@ public class UserController {
         }
         return new Message(Message.SUCCESS,"获取用户成功！",user);
     }
+    /**
+     * 获取用户列表(有分页)
+     * @return
+     */
+    @RequestMapping(value = "", method = RequestMethod.GET)
+    @ResponseBody
+    public Message getList(@RequestParam int limit,
+                           @RequestParam int page){
 
+        BaseTableMessage tableMessage = new BaseTableMessage();
+        try {
+            tableMessage = userService.getList(page, limit);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return new Message(Message.ERROR,"获取用户列表失败！",null);
+        }
+        return new Message(Message.SUCCESS,"获取文章列表成功！",tableMessage);
+    }
     /**
      * 根据
      * @param tableMessage

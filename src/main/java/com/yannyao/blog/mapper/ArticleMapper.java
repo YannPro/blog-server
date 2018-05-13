@@ -15,6 +15,12 @@ public interface ArticleMapper {
      * @throws Exception
      */
     public List<Article> getAll() throws Exception;
+    /**
+     * 查询所有文章数
+     * @return文章数
+     * @throws Exception
+     */
+    public Integer getAllCount() throws Exception;
 
     /**
      * 根据主键获取文章

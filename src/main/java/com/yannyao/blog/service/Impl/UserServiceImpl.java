@@ -30,7 +30,23 @@ public class UserServiceImpl implements UserService{
         }
         return userList;
     }
+    @Override
+    public BaseTableMessage getList(int page, int limit) throws Exception {
+        List<User> userList = new ArrayList<>();
+        BaseTableMessage tableMessage = new BaseTableMessage();
+        try {
+            tableMessage.setLimit(limit);
+            tableMessage.setOffset((page-1)*limit);
+            userList = userMapper.getList(tableMessage);
+            tableMessage.setRows(userList);
+            tableMessage.setTotal(userMapper.getAllCount());
 
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
+        }
+        return tableMessage;
+    }
     @Override
     public User getById(Integer id) throws Exception{
         User user = new User();

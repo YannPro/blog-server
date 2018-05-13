@@ -9,7 +9,7 @@
         <span class="sr-only">Toggle navigation</span>
       </a>
       <div class="navbar-custom-menu">
-        <el-dropdown class="navbar-dropdown" trigger="click">
+        <!-- <el-dropdown class="navbar-dropdown" trigger="click">
           <div class="el-dropdown-link" style="height: auto;line-height: inherit">
             <el-badge :value="count" class="item">
             <i class="fa fa-envelope-o"></i>
@@ -17,15 +17,15 @@
           </div>
           <el-dropdown-menu>
             <ul class="message-list">
-            <li v-for="(item,index) in list"><!-- start message -->
+            <li v-for="(item,index) in list" :key="index">
             <router-link :to="{path:'/sys/message',query:{id:item.id}}">
             <p>{{index + 1}}. {{item.title}}</p>
             </router-link>
             </li>
             </ul>
           </el-dropdown-menu>
-        </el-dropdown>
-        <el-dropdown trigger="click" class="navbar-dropdown">
+        </el-dropdown> -->
+        <!-- <el-dropdown trigger="click" class="navbar-dropdown">
           <div class="el-dropdown-link">
             <img :src='userInfo.avatar' style="width: 25px;height: 25px;border-radius: 50%; vertical-align: middle;" alt="U">
             {{userInfo.name}}
@@ -46,7 +46,7 @@
               </div>
             </div>
           </el-dropdown-menu>
-        </el-dropdown>
+        </el-dropdown> -->
       </div>
 
     </nav>

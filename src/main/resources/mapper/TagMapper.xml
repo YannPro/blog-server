@@ -20,9 +20,12 @@
         LEFT JOIN `article_article_tag` r ON r.`tag_id` = t.`id`
         WHERE `article_id` = #{_parameter}
     </select>
-    <insert id="insert" parameterType="com.yannyao.blog.bean.ArticleClass">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yannyao.blog.bean.ArticleClass">
         INSERT INTO `article_tag` (`tag_name`) VALUES (#{tagName})
     </insert>
+    <select id="getById"  resultMap="TagMap">
+        SELECT * FROM `article_tag` a WHERE `id` = #{_parameter}
+    </select>
     <update id="delete">
         UPDATE `article_tag` SET `status` = 1
         where `id` = #{_parameter}

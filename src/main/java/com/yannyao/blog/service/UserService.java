@@ -17,6 +17,12 @@ public interface UserService {
      * @throws Exception
      */
     public List<User> getList() throws Exception;
+    /**
+     * 获取用户列表(分页)
+     * @return
+     * @throws Exception
+     */
+    public BaseTableMessage getList(int page, int limit) throws Exception;
 
     /**
      * 根据id获取用户

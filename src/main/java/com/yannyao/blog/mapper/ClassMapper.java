@@ -17,6 +17,13 @@ public interface ClassMapper {
     public List<ArticleClass> getList() throws Exception;
 
     /**
+     * 通过文章id获取标签列表
+     * @return文章标签列表
+     * @throws Exception
+     */
+    public List<ArticleClass> getListByArticleId(Integer articleId) throws Exception;
+
+    /**
      * 新增一个文章类别
      * @param clazz
      * @return
