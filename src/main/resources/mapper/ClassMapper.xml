@@ -10,6 +10,11 @@
         <result column="create_time" property="createTime"/>
         <result column="update_time" property="updateTime"/>
     </resultMap>
+    <select id="getListByArticleId"  resultMap="ClassMap">
+        SELECT t.*,r.`article_id` FROM `article_class` t
+        LEFT JOIN `article_article_class` r ON r.`class_id` = t.`id`
+        WHERE `article_id` = #{_parameter}
+    </select>
     <select id="getList"  resultMap="ClassMap">
         SELECT * FROM `article_class` a
         WHERE `status` = 0
@@ -17,7 +22,7 @@
     <select id="getById"  resultMap="ClassMap">
         SELECT * FROM `article_class` a WHERE `id` = #{_parameter}
     </select>
-    <insert id="insert" parameterType="com.yannyao.blog.bean.ArticleClass">
+    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yannyao.blog.bean.ArticleClass">
         INSERT INTO `article_class` (`class_name`) VALUES (#{className})
     </insert>
     <update id="delete">

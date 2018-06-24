@@ -10,6 +10,9 @@ import userAdd from "../pages/sys/userAdd.vue";
 import resetPwd from "../pages/resetPwd.vue";
 import TagAndClass from "../pages/TagAndClass/index.vue";
 import Publish from "../pages/Publish/index.vue";
+import ArticleList from "../pages/article/ArticleList.vue";
+import UserList from "../pages/user/UserList.vue";
+
 import Test from "../pages/test/index.vue";
 
 // Routes
@@ -31,6 +34,8 @@ const routes = [
     {path: '/sys/resource', component: resource},
     {path: '/category', component: TagAndClass},
     {path: '/publish', component: Publish},
+    {path: '/article/list', component: ArticleList},
+    {path: '/user/list', component: UserList},
     {path: '/Tests', component: Test}
   ]
   },

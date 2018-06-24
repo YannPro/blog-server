@@ -1,13 +1,18 @@
 package com.yannyao.blog.bean;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.yannyao.blog.config.CustomJsonDateDeserializer;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import lombok.NonNull;
+import springfox.documentation.spring.web.json.Json;
 
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @Author: YannYao
@@ -45,7 +50,7 @@ public class Article {
     /**
      * 文章所属类目
      */
-    private Integer clazz;
+//    private Integer clazz;
     /**
      * 是否推荐：0.不推荐，1.推荐到首页
      */
@@ -55,15 +60,17 @@ public class Article {
      */
     private Integer status;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
 
-    private ArticleClass articleClass;
-    /**
-     * article所属标签数组
-     * */
     private List<ArticleTag> tagList;
+
+    private List<ArticleClass> classList;
+
+//    private List<Map<String,String>> tagList;
+//
+//    private List<Map<String,String>> classList;
 }

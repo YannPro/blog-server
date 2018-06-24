@@ -25,10 +25,10 @@ public class ArticleClass {
      */
     private Integer status;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
+//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
 
 }

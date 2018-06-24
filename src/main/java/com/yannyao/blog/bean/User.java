@@ -31,5 +31,5 @@ public class User {
     @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
 
-    private List<Role> roles;
+    private Role role;
 }

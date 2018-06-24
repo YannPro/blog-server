@@ -27,7 +27,7 @@ public interface ArticleService {
      * @return
      * @throws Exception
      */
-    public List<Article> getList(int page, int limit) throws Exception;
+    public BaseTableMessage getList(int page, int limit) throws Exception;
     /**
      * 根据id获取文章
      * @param id

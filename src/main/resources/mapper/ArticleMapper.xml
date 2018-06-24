@@ -15,7 +15,6 @@
         <result column="like" property="like"/>
         <result column="dislike" property="dislike"/>
         <result column="comment_count" property="commentCount"/>
-        <result column="class" property="clazz"/>
         <result column="commend" property="commend"/>
         <result column="status" property="status"/>
         <result column="create_time" property="createTime"/>
@@ -24,7 +23,9 @@
     <select id="getAll"  resultMap="ArticleMap">
         SELECT * FROM `article` a
     </select>
-
+    <select id="getAllCount"  resultType="int">
+        SELECT COUNT(*) FROM `article` a
+    </select>
     <select id="getList" resultMap="ArticleMap">
         SELECT * FROM `article` a
         LIMIT #{offset},#{limit}

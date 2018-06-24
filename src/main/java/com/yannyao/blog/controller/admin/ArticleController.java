@@ -5,6 +5,8 @@ import com.yannyao.blog.bean.Message;
 import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.service.ArticleService;
 import io.swagger.models.auth.In;
+import org.apache.shiro.SecurityUtils;
+import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -23,10 +25,14 @@ public class ArticleController {
      * 获取文章列表
      * @return
      */
+//    @RequiresAuthentication
     @RequestMapping(value = "/all", method = RequestMethod.GET)
     @ResponseBody
     public Message getAll(){
-
+//        boolean isLogined = SecurityUtils.getSubject().isAuthenticated();
+//        if(isLogined){
+//            System.out.println("hahahaha");
+//        }
         List<Article> articleList = new ArrayList<>();
 
         try {
@@ -46,15 +52,14 @@ public class ArticleController {
     public Message getList(@RequestParam int limit,
                            @RequestParam int page){
 
-        List<Article> articleList = new ArrayList<>();
-
+        BaseTableMessage tableMessage = new BaseTableMessage();
         try {
-            articleList = articleService.getList(page, limit);
+            tableMessage = articleService.getList(page, limit);
         } catch (Exception e) {
             e.printStackTrace();
             return new Message(Message.ERROR,"获取文章列表失败！",null);
         }
-        return new Message(Message.SUCCESS,"获取文章列表成功！",articleList);
+        return new Message(Message.SUCCESS,"获取文章列表成功！",tableMessage);
     }
     /**
      * 根据id查询文章

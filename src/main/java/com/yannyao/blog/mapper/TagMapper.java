@@ -31,6 +31,13 @@ public interface TagMapper {
      */
 
     public int insert(ArticleTag articleTag) throws Exception;
+    /**
+     * 根据主键获取类别
+     * @param id
+     * @return
+     * @throws Exception
+     */
+    public ArticleTag getById(Integer id) throws Exception;
 
     /**
      * 修改一个文章标签

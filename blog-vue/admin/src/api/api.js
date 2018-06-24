@@ -1,5 +1,4 @@
 import axios from 'axios';
-
 export const requestLogin = params => { return axios.post(`/login`, params).then(res => res.data); };
 
 export const getUserList = params => { return axios.get(`/user/list`, { params: params }); };
@@ -15,7 +14,7 @@ export const addUser = params => { return axios.get(`/user/add`, { params: param
 /* article */
 export const getAllArticle = params => { return axios.get(`/admin/article/all`, { params: params }).then(res => res.data); };
 //文章列表 有分页
-export const getArticleList = params => { return axios.get(`/admin/article`, { params: params }).then(res => res.data); };
+export const getArticleList = params => { return axios.get(`/admin/article?limit=${params.limit}&page=${params.page}`).then(res => res.data); };
 
 export const getArticleById = params => { return axios.get(`/admin/article/${params.id}`, { params: params }).then(res => res.data); };
 

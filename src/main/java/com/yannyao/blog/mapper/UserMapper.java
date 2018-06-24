@@ -14,6 +14,18 @@ public interface UserMapper {
      * @throws Exception
      */
     public List<User> getList() throws Exception;
+    /**
+     * 根据TableMessage查询用户
+     * @param tableMessage
+     * @return
+     */
+    public List<User> getList(BaseTableMessage tableMessage) throws Exception;
+    /**
+     * 查询所有用户
+     * @return用户数
+     * @throws Exception
+     */
+    public Integer getAllCount() throws Exception;
 
     /**
      * 根据主键获取用户

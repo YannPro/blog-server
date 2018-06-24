@@ -41,9 +41,6 @@
         "commentCount": {
           "type": "integer"
         },
-        "class": {
-          "type": "integer"
-        },
         "commend": {
           "type": "integer"
         },
