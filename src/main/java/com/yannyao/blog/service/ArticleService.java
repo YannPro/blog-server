@@ -1,9 +1,7 @@
 package com.yannyao.blog.service;
 
 import com.yannyao.blog.bean.Article;
-import com.yannyao.blog.bean.ArticleTableMessage;
 import com.yannyao.blog.bean.BaseTableMessage;
-import io.swagger.models.auth.In;
 
 import java.util.List;
 

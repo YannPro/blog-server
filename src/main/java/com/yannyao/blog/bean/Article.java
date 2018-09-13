@@ -1,45 +1,16 @@
 package com.yannyao.blog.bean;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.yannyao.blog.config.CustomJsonDateDeserializer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-import lombok.NonNull;
-import springfox.documentation.spring.web.json.Json;
-
 import java.util.Date;
-import java.util.List;
-import java.util.Map;
 
-/**
- * @Author: YannYao
- * @Description:
- * @Date Created in 13:03 2017/12/11
- */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class Article {
-    private Integer id;
-
+public class Article extends BaseBean {
     private String title;
 
     private String description;
 
-    private String content;
-    /**
-     * 添加文章的管理员
-     * */
     private Integer adminId;
 
     private String image;
 
-    /**
-     * article点击数
-     */
     private Integer click;
 
     private Integer like;
@@ -47,30 +18,118 @@ public class Article {
     private Integer dislike;
 
     private Integer commentCount;
-    /**
-     * 文章所属类目
-     */
-//    private Integer clazz;
-    /**
-     * 是否推荐：0.不推荐，1.推荐到首页
-     */
+
     private Integer commend;
-    /**
-     * 状态，0为显示，1为隐藏，3为删除
-     */
+
     private Integer status;
 
-//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 
-//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
 
-    private List<ArticleTag> tagList;
+    private String content;
 
-    private List<ArticleClass> classList;
+    public String getTitle() {
+        return title;
+    }
 
-//    private List<Map<String,String>> tagList;
-//
-//    private List<Map<String,String>> classList;
+    public void setTitle(String title) {
+        this.title = title;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public Integer getAdminId() {
+        return adminId;
+    }
+
+    public void setAdminId(Integer adminId) {
+        this.adminId = adminId;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
+    }
+
+    public Integer getClick() {
+        return click;
+    }
+
+    public void setClick(Integer click) {
+        this.click = click;
+    }
+
+    public Integer getLike() {
+        return like;
+    }
+
+    public void setLike(Integer like) {
+        this.like = like;
+    }
+
+    public Integer getDislike() {
+        return dislike;
+    }
+
+    public void setDislike(Integer dislike) {
+        this.dislike = dislike;
+    }
+
+    public Integer getCommentCount() {
+        return commentCount;
+    }
+
+    public void setCommentCount(Integer commentCount) {
+        this.commentCount = commentCount;
+    }
+
+    public Integer getCommend() {
+        return commend;
+    }
+
+    public void setCommend(Integer commend) {
+        this.commend = commend;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 }

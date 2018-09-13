@@ -1,8 +1,6 @@
 package com.yannyao.blog.service;
 
-import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.bean.ArticleComment;
-import com.yannyao.blog.bean.BaseTableMessage;
 
 import java.util.List;
 

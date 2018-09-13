@@ -1,8 +1,6 @@
 package com.yannyao.blog.mapper;
 
-import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.bean.ArticleClass;
-import com.yannyao.blog.bean.BaseTableMessage;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

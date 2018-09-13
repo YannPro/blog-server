@@ -7,9 +7,9 @@ spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: 123456
-    url: jdbc:mysql://101.132.140.132/blog?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
-    ip: 101.132.140.132
+    password: yimo0011
+    url: jdbc:mysql://127.0.0.1/blog?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    ip: 127.0.0.1
     port: 3306
     database: blog
 

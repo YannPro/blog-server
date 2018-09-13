@@ -1,65 +1,441 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!DOCTYPE mapper
-        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
-        "http://www.mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.yannyao.blog.mapper.ArticleMapper">
-    <resultMap id="ArticleMap" type="com.yannyao.blog.bean.Article">
-        <id column="id" property="id"/>
-        <result column="title" property="title"/>
-        <result column="description" property="description"/>
-        <result column="content" property="content"/>
-        <result column="admin_id" property="adminId"/>
-        <result column="image" property="image"/>
-        <result column="content" property="content"/>
-        <result column="click" property="click"/>
-        <result column="like" property="like"/>
-        <result column="dislike" property="dislike"/>
-        <result column="comment_count" property="commentCount"/>
-        <result column="commend" property="commend"/>
-        <result column="status" property="status"/>
-        <result column="create_time" property="createTime"/>
-        <result column="update_time" property="updateTime"/>
-    </resultMap>
-    <select id="getAll"  resultMap="ArticleMap">
-        SELECT * FROM `article` a
-    </select>
-    <select id="getAllCount"  resultType="int">
-        SELECT COUNT(*) FROM `article` a
-    </select>
-    <select id="getList" resultMap="ArticleMap">
-        SELECT * FROM `article` a
-        LIMIT #{offset},#{limit}
-    </select>
-    <select id="getById"  resultMap="ArticleMap">
-        SELECT * FROM `article` u WHERE `id` = #{_parameter}
-    </select>
-    <insert id="insert" useGeneratedKeys="true" keyProperty="id" parameterType="com.yannyao.blog.bean.Article">
-        INSERT INTO `article` (`title`,`description`,`content`,`admin_id`,`image`)
-        VALUES (#{title},#{description},#{content},#{adminId},#{image})
-    </insert>
-    <update id="delete">
-        UPDATE `article` SET `status` = 3
-        where `id` = #{_parameter}
-    </update>
-    <update id="update" parameterType="com.yannyao.blog.bean.Article">
-        UPDATE `article`
-        <set>
-            <if test="title != null">
-                `title` = #{title},
-            </if>
-            <if test="description != null">
-                `description` = #{description},
-            </if>
-            <if test="content != null">
-                `content`=#{content},
-            </if>
-            <if test="adminId != null">
-                `admin_id` = #{adminId},
-            </if>
-            <if test="image != null">
-                `image` = #{image}
-            </if>
-        </set>
-        where `id`=#{id}
-    </update>
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.yannyao.blog.mapper.ArticleMapper" >
+  <resultMap id="BaseResultMap" type="com.yannyao.blog.bean.Article" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="description" property="description" jdbcType="VARCHAR" />
+    <result column="admin_id" property="adminId" jdbcType="INTEGER" />
+    <result column="image" property="image" jdbcType="VARCHAR" />
+    <result column="click" property="click" jdbcType="INTEGER" />
+    <result column="like" property="like" jdbcType="INTEGER" />
+    <result column="dislike" property="dislike" jdbcType="INTEGER" />
+    <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
+    <result column="commend" property="commend" jdbcType="INTEGER" />
+    <result column="status" property="status" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <resultMap id="ResultMapWithBLOBs" type="com.yannyao.blog.bean.Article" extends="BaseResultMap" >
+    <result column="content" property="content" jdbcType="LONGVARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, title, description, admin_id, image, click, like, dislike, comment_count, commend, 
+    status, create_time, update_time
+  </sql>
+  <sql id="Blob_Column_List" >
+    content
+  </sql>
+  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yannyao.blog.bean.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yannyao.blog.bean.ArticleExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    where id = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from article
+    where id = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.yannyao.blog.bean.ArticleExample" >
+    delete from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.yannyao.blog.bean.Article" >
+    insert into article (id, title, description, 
+      admin_id, image, click, 
+      like, dislike, comment_count, 
+      commend, status, create_time, 
+      update_time, content)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
+      #{adminId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{click,jdbcType=INTEGER}, 
+      #{like,jdbcType=INTEGER}, #{dislike,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
+      #{commend,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
+      #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.yannyao.blog.bean.Article" >
+    insert into article
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="title != null" >
+        title,
+      </if>
+      <if test="description != null" >
+        description,
+      </if>
+      <if test="adminId != null" >
+        admin_id,
+      </if>
+      <if test="image != null" >
+        image,
+      </if>
+      <if test="click != null" >
+        click,
+      </if>
+      <if test="like != null" >
+        like,
+      </if>
+      <if test="dislike != null" >
+        dislike,
+      </if>
+      <if test="commentCount != null" >
+        comment_count,
+      </if>
+      <if test="commend != null" >
+        commend,
+      </if>
+      <if test="status != null" >
+        status,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="content != null" >
+        content,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="title != null" >
+        #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null" >
+        #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null" >
+        #{click,jdbcType=INTEGER},
+      </if>
+      <if test="like != null" >
+        #{like,jdbcType=INTEGER},
+      </if>
+      <if test="dislike != null" >
+        #{dislike,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="commend != null" >
+        #{commend,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.yannyao.blog.bean.ArticleExample" resultType="java.lang.Integer" >
+    select count(*) from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update article
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.title != null" >
+        title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.description != null" >
+        description = #{record.description,jdbcType=VARCHAR},
+      </if>
+      <if test="record.adminId != null" >
+        admin_id = #{record.adminId,jdbcType=INTEGER},
+      </if>
+      <if test="record.image != null" >
+        image = #{record.image,jdbcType=VARCHAR},
+      </if>
+      <if test="record.click != null" >
+        click = #{record.click,jdbcType=INTEGER},
+      </if>
+      <if test="record.like != null" >
+        like = #{record.like,jdbcType=INTEGER},
+      </if>
+      <if test="record.dislike != null" >
+        dislike = #{record.dislike,jdbcType=INTEGER},
+      </if>
+      <if test="record.commentCount != null" >
+        comment_count = #{record.commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="record.commend != null" >
+        commend = #{record.commend,jdbcType=INTEGER},
+      </if>
+      <if test="record.status != null" >
+        status = #{record.status,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExampleWithBLOBs" parameterType="map" >
+    update article
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER},
+      like = #{record.like,jdbcType=INTEGER},
+      dislike = #{record.dislike,jdbcType=INTEGER},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      commend = #{record.commend,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      content = #{record.content,jdbcType=LONGVARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update article
+    set id = #{record.id,jdbcType=INTEGER},
+      title = #{record.title,jdbcType=VARCHAR},
+      description = #{record.description,jdbcType=VARCHAR},
+      admin_id = #{record.adminId,jdbcType=INTEGER},
+      image = #{record.image,jdbcType=VARCHAR},
+      click = #{record.click,jdbcType=INTEGER},
+      like = #{record.like,jdbcType=INTEGER},
+      dislike = #{record.dislike,jdbcType=INTEGER},
+      comment_count = #{record.commentCount,jdbcType=INTEGER},
+      commend = #{record.commend,jdbcType=INTEGER},
+      status = #{record.status,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.yannyao.blog.bean.Article" >
+    update article
+    <set >
+      <if test="title != null" >
+        title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="description != null" >
+        description = #{description,jdbcType=VARCHAR},
+      </if>
+      <if test="adminId != null" >
+        admin_id = #{adminId,jdbcType=INTEGER},
+      </if>
+      <if test="image != null" >
+        image = #{image,jdbcType=VARCHAR},
+      </if>
+      <if test="click != null" >
+        click = #{click,jdbcType=INTEGER},
+      </if>
+      <if test="like != null" >
+        like = #{like,jdbcType=INTEGER},
+      </if>
+      <if test="dislike != null" >
+        dislike = #{dislike,jdbcType=INTEGER},
+      </if>
+      <if test="commentCount != null" >
+        comment_count = #{commentCount,jdbcType=INTEGER},
+      </if>
+      <if test="commend != null" >
+        commend = #{commend,jdbcType=INTEGER},
+      </if>
+      <if test="status != null" >
+        status = #{status,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=LONGVARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yannyao.blog.bean.Article" >
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER},
+      like = #{like,jdbcType=INTEGER},
+      dislike = #{dislike,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      commend = #{commend,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      content = #{content,jdbcType=LONGVARCHAR}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.yannyao.blog.bean.Article" >
+    update article
+    set title = #{title,jdbcType=VARCHAR},
+      description = #{description,jdbcType=VARCHAR},
+      admin_id = #{adminId,jdbcType=INTEGER},
+      image = #{image,jdbcType=VARCHAR},
+      click = #{click,jdbcType=INTEGER},
+      like = #{like,jdbcType=INTEGER},
+      dislike = #{dislike,jdbcType=INTEGER},
+      comment_count = #{commentCount,jdbcType=INTEGER},
+      commend = #{commend,jdbcType=INTEGER},
+      status = #{status,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP}
+    where id = #{id,jdbcType=INTEGER}
+  </update>
+  <select resultMap="ResultMapWithBLOBs" parameterType="com.yannyao.blog.bean.ArticleExample" id="selectByExampleWithBLOBsWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    ,
+    <include refid="Blob_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select resultMap="BaseResultMap" parameterType="com.yannyao.blog.bean.ArticleExample" id="selectByExampleWithRowbounds" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from article
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
 </mapper>

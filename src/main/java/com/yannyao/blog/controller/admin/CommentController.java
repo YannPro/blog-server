@@ -1,17 +1,13 @@
 package com.yannyao.blog.controller.admin;
 
-import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.bean.ArticleComment;
-import com.yannyao.blog.bean.BaseTableMessage;
 import com.yannyao.blog.bean.Message;
-import com.yannyao.blog.service.ArticleService;
 import com.yannyao.blog.service.CommentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 
 @RestController
 @RequestMapping("/admin/comment")

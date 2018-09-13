@@ -1,34 +1,45 @@
 package com.yannyao.blog.bean;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.yannyao.blog.config.CustomJsonDateDeserializer;
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
-
 import java.util.Date;
 
-/**
- * @Author: YannYao
- * @Description:文章标签
- * @Date Created in 13:05 2017/12/11
- */
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ArticleTag {
-    private Integer id;
+public class ArticleTag extends BaseBean {
+    private Integer articleId;
 
-    private String tagName;
-    /**
-     * 状态0为启用，1为禁用
-     */
-    private Integer status;
+    private Integer tagId;
 
-//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 
-//    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
 
+    public Integer getArticleId() {
+        return articleId;
+    }
+
+    public void setArticleId(Integer articleId) {
+        this.articleId = articleId;
+    }
+
+    public Integer getTagId() {
+        return tagId;
+    }
+
+    public void setTagId(Integer tagId) {
+        this.tagId = tagId;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

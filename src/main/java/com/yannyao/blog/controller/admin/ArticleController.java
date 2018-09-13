@@ -1,12 +1,9 @@
 package com.yannyao.blog.controller.admin;
 
+import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.bean.BaseTableMessage;
 import com.yannyao.blog.bean.Message;
-import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.service.ArticleService;
-import io.swagger.models.auth.In;
-import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authz.annotation.RequiresAuthentication;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
