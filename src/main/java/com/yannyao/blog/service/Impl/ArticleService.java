@@ -36,6 +36,9 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
 //    private TagMapper tagMapper;
 //    @Autowired
 //    private SearchService searchService;
+
+    @Autowired
+    private ArticleMapper articleMapper;
     @Autowired
     private TagService tagService;
     @Autowired
@@ -221,6 +224,6 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
 
     @Override
     BaseMapper<Article, ArticleExample> mapper() {
-        return null;
+        return articleMapper;
     }
 }

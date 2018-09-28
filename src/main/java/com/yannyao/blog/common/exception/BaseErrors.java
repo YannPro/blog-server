@@ -8,7 +8,8 @@ package com.yannyao.blog.common.exception;
 public enum BaseErrors implements ApiErrors {
     JSON_FORMAT_ERROR(100002, "JSON格式错误", "服务器出小差了~"),
     SYSTEM_ERROR(100003, "%s", "服务器繁忙，请稍后重试"),
-    SERVER_ERROR(10000018, "%s", "%s");
+    SERVER_ERROR(10000018, "%s", "%s"),
+    REQUEST_PARAM_ERROR(10000004, "请求参数异常", "请求参数异常");
 
     private int result;
     private String errMsg;

@@ -75,17 +75,17 @@
         <!--<table tableName="article" domainObjectName="Article">-->
             <!--<property name="useActualColumnNames" value="false"/>-->
         <!--</table>-->
-        <!--<table tableName="tag" domainObjectName="Tag">-->
-            <!--<property name="useActualColumnNames" value="false"/>-->
-        <!--</table>-->
+        <table tableName="tag" domainObjectName="Tag">
+            <property name="useActualColumnNames" value="false"/>
+        </table>
         <!--<table tableName="category" domainObjectName="Category">-->
             <!--<property name="useActualColumnNames" value="false"/>-->
         <!--</table>-->
-        <table tableName="article_category" domainObjectName="ArticleCategory">
-            <property name="useActualColumnNames" value="false"/>
-        </table>
-        <table tableName="article_tag" domainObjectName="ArticleTag">
-            <property name="useActualColumnNames" value="false"/>
-        </table>
+        <!--<table tableName="article_category" domainObjectName="ArticleCategory">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
+        <!--<table tableName="article_tag" domainObjectName="ArticleTag">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
     </context>
 </generatorConfiguration>

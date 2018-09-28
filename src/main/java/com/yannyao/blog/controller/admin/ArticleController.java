@@ -21,6 +21,9 @@ public class ArticleController {
     @Autowired
     private ArticleService articleService;
 
+    public static void main(String[] args) {
+
+    }
     /**
      * 获取文章列表
      * @return
@@ -49,7 +52,7 @@ public class ArticleController {
      */
     @GetMapping("/listArticle")
     @ResponseBody
-    public PageResponse<ArticleVO> getList(ListArticleRequest request){
+    public PageResponse<ArticleVO> listArticle(ListArticleRequest request){
         return articleService.listArticle(request);
     }
 //    /**

@@ -4,6 +4,7 @@ import com.yannyao.blog.bean.ArticleTag;
 import com.yannyao.blog.bean.ArticleTagExample;
 import com.yannyao.blog.bean.Tag;
 import com.yannyao.blog.bean.TagExample;
+import com.yannyao.blog.mapper.ArticleTagMapper;
 import com.yannyao.blog.mapper.BaseMapper;
 import com.yannyao.blog.mapper.TagMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,9 +21,12 @@ import java.util.List;
 @Component
 public class ArticleTagService extends BaseService<ArticleTag, ArticleTagExample>{
 
+    @Autowired
+    private ArticleTagMapper articleTagMapper;
+
     @Override
     BaseMapper<ArticleTag, ArticleTagExample> mapper() {
-        return null;
+        return articleTagMapper;
     }
 
 }
