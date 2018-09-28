@@ -8,7 +8,7 @@
     <result column="admin_id" property="adminId" jdbcType="INTEGER" />
     <result column="image" property="image" jdbcType="VARCHAR" />
     <result column="click" property="click" jdbcType="INTEGER" />
-    <result column="like" property="like" jdbcType="INTEGER" />
+    <result column="likes" property="likes" jdbcType="INTEGER" />
     <result column="dislike" property="dislike" jdbcType="INTEGER" />
     <result column="comment_count" property="commentCount" jdbcType="INTEGER" />
     <result column="commend" property="commend" jdbcType="INTEGER" />
@@ -78,7 +78,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, description, admin_id, image, click, like, dislike, comment_count, commend, 
+    id, title, description, admin_id, image, click, likes, dislike, comment_count, commend, 
     status, create_time, update_time
   </sql>
   <sql id="Blob_Column_List" >
@@ -135,12 +135,12 @@
   <insert id="insert" parameterType="com.yannyao.blog.bean.Article" >
     insert into article (id, title, description, 
       admin_id, image, click, 
-      like, dislike, comment_count, 
+      likes, dislike, comment_count, 
       commend, status, create_time, 
       update_time, content)
     values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
       #{adminId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{click,jdbcType=INTEGER}, 
-      #{like,jdbcType=INTEGER}, #{dislike,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
+      #{likes,jdbcType=INTEGER}, #{dislike,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
       #{commend,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
       #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
   </insert>
@@ -165,8 +165,8 @@
       <if test="click != null" >
         click,
       </if>
-      <if test="like != null" >
-        like,
+      <if test="likes != null" >
+        likes,
       </if>
       <if test="dislike != null" >
         dislike,
@@ -209,8 +209,8 @@
       <if test="click != null" >
         #{click,jdbcType=INTEGER},
       </if>
-      <if test="like != null" >
-        #{like,jdbcType=INTEGER},
+      <if test="likes != null" >
+        #{likes,jdbcType=INTEGER},
       </if>
       <if test="dislike != null" >
         #{dislike,jdbcType=INTEGER},
@@ -262,8 +262,8 @@
       <if test="record.click != null" >
         click = #{record.click,jdbcType=INTEGER},
       </if>
-      <if test="record.like != null" >
-        like = #{record.like,jdbcType=INTEGER},
+      <if test="record.likes != null" >
+        likes = #{record.likes,jdbcType=INTEGER},
       </if>
       <if test="record.dislike != null" >
         dislike = #{record.dislike,jdbcType=INTEGER},
@@ -299,7 +299,7 @@
       admin_id = #{record.adminId,jdbcType=INTEGER},
       image = #{record.image,jdbcType=VARCHAR},
       click = #{record.click,jdbcType=INTEGER},
-      like = #{record.like,jdbcType=INTEGER},
+      likes = #{record.likes,jdbcType=INTEGER},
       dislike = #{record.dislike,jdbcType=INTEGER},
       comment_count = #{record.commentCount,jdbcType=INTEGER},
       commend = #{record.commend,jdbcType=INTEGER},
@@ -319,7 +319,7 @@
       admin_id = #{record.adminId,jdbcType=INTEGER},
       image = #{record.image,jdbcType=VARCHAR},
       click = #{record.click,jdbcType=INTEGER},
-      like = #{record.like,jdbcType=INTEGER},
+      likes = #{record.likes,jdbcType=INTEGER},
       dislike = #{record.dislike,jdbcType=INTEGER},
       comment_count = #{record.commentCount,jdbcType=INTEGER},
       commend = #{record.commend,jdbcType=INTEGER},
@@ -348,8 +348,8 @@
       <if test="click != null" >
         click = #{click,jdbcType=INTEGER},
       </if>
-      <if test="like != null" >
-        like = #{like,jdbcType=INTEGER},
+      <if test="likes != null" >
+        likes = #{likes,jdbcType=INTEGER},
       </if>
       <if test="dislike != null" >
         dislike = #{dislike,jdbcType=INTEGER},
@@ -382,7 +382,7 @@
       admin_id = #{adminId,jdbcType=INTEGER},
       image = #{image,jdbcType=VARCHAR},
       click = #{click,jdbcType=INTEGER},
-      like = #{like,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
       dislike = #{dislike,jdbcType=INTEGER},
       comment_count = #{commentCount,jdbcType=INTEGER},
       commend = #{commend,jdbcType=INTEGER},
@@ -399,7 +399,7 @@
       admin_id = #{adminId,jdbcType=INTEGER},
       image = #{image,jdbcType=VARCHAR},
       click = #{click,jdbcType=INTEGER},
-      like = #{like,jdbcType=INTEGER},
+      likes = #{likes,jdbcType=INTEGER},
       dislike = #{dislike,jdbcType=INTEGER},
       comment_count = #{commentCount,jdbcType=INTEGER},
       commend = #{commend,jdbcType=INTEGER},

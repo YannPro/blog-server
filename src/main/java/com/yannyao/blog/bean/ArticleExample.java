@@ -495,63 +495,63 @@ public class ArticleExample {
             return (Criteria) this;
         }
 
-        public Criteria andLikeIsNull() {
-            addCriterion("like is null");
+        public Criteria andLikesIsNull() {
+            addCriterion("likes is null");
             return (Criteria) this;
         }
 
-        public Criteria andLikeIsNotNull() {
-            addCriterion("like is not null");
+        public Criteria andLikesIsNotNull() {
+            addCriterion("likes is not null");
             return (Criteria) this;
         }
 
-        public Criteria andLikeEqualTo(Integer value) {
-            addCriterion("like =", value, "like");
+        public Criteria andLikesEqualTo(Integer value) {
+            addCriterion("likes =", value, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeNotEqualTo(Integer value) {
-            addCriterion("like <>", value, "like");
+        public Criteria andLikesNotEqualTo(Integer value) {
+            addCriterion("likes <>", value, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeGreaterThan(Integer value) {
-            addCriterion("like >", value, "like");
+        public Criteria andLikesGreaterThan(Integer value) {
+            addCriterion("likes >", value, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeGreaterThanOrEqualTo(Integer value) {
-            addCriterion("like >=", value, "like");
+        public Criteria andLikesGreaterThanOrEqualTo(Integer value) {
+            addCriterion("likes >=", value, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeLessThan(Integer value) {
-            addCriterion("like <", value, "like");
+        public Criteria andLikesLessThan(Integer value) {
+            addCriterion("likes <", value, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeLessThanOrEqualTo(Integer value) {
-            addCriterion("like <=", value, "like");
+        public Criteria andLikesLessThanOrEqualTo(Integer value) {
+            addCriterion("likes <=", value, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeIn(List<Integer> values) {
-            addCriterion("like in", values, "like");
+        public Criteria andLikesIn(List<Integer> values) {
+            addCriterion("likes in", values, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeNotIn(List<Integer> values) {
-            addCriterion("like not in", values, "like");
+        public Criteria andLikesNotIn(List<Integer> values) {
+            addCriterion("likes not in", values, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeBetween(Integer value1, Integer value2) {
-            addCriterion("like between", value1, value2, "like");
+        public Criteria andLikesBetween(Integer value1, Integer value2) {
+            addCriterion("likes between", value1, value2, "likes");
             return (Criteria) this;
         }
 
-        public Criteria andLikeNotBetween(Integer value1, Integer value2) {
-            addCriterion("like not between", value1, value2, "like");
+        public Criteria andLikesNotBetween(Integer value1, Integer value2) {
+            addCriterion("likes not between", value1, value2, "likes");
             return (Criteria) this;
         }
 

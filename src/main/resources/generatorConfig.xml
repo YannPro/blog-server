@@ -64,20 +64,12 @@
         </javaClientGenerator>
         <!-- 运行generator 脚本命令 ： mvn mybatis-generator:generate -->
 
-
-        <!--<table tableName="powercard_config" domainObjectName="PowerCardConfig">-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-        <!--<table tableName="ym_user_wish" domainObjectName="YmUserWish">-->
-            <!--<property name="useActualColumnNames" value="true"/>-->
-        <!--</table>-->
-
-        <!--<table tableName="article" domainObjectName="Article">-->
-            <!--<property name="useActualColumnNames" value="false"/>-->
-        <!--</table>-->
-        <table tableName="tag" domainObjectName="Tag">
+        <table tableName="article" domainObjectName="Article">
             <property name="useActualColumnNames" value="false"/>
         </table>
+        <!--<table tableName="tag" domainObjectName="Tag">-->
+            <!--<property name="useActualColumnNames" value="false"/>-->
+        <!--</table>-->
         <!--<table tableName="category" domainObjectName="Category">-->
             <!--<property name="useActualColumnNames" value="false"/>-->
         <!--</table>-->

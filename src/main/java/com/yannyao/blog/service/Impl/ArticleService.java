@@ -85,23 +85,29 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
             articleTagExample.createCriteria().andArticleIdEqualTo(article.getId());
             List<ArticleTag> articleTagList = articleTagService.mapper().selectByExample(articleTagExample);
             List<Integer> tagIds = articleTagList.stream().map(articleTag -> articleTag.getId()).collect(Collectors.toList());
-            TagExample tagExample = new TagExample();
-            tagExample.createCriteria().andIdIn(tagIds);
-            List<String> tagList = tagService.mapper().selectByExample(tagExample)
-                    .stream()
-                    .map(tag -> tag.getName())
-                    .collect(Collectors.toList());
+            List<String> tagList = new ArrayList<>();
+            if (tagIds.size() != 0) {
+                TagExample tagExample = new TagExample();
+                tagExample.createCriteria().andIdIn(tagIds);
+                tagList = tagService.mapper().selectByExample(tagExample)
+                        .stream()
+                        .map(tag -> tag.getName())
+                        .collect(Collectors.toList());
+            }
 
             ArticleCategoryExample articleCategoryExample = new ArticleCategoryExample();
             articleCategoryExample.createCriteria().andArticleIdEqualTo(article.getId());
             List<ArticleCategory> articleCategoryList = articleCategoryService.mapper().selectByExample(articleCategoryExample);
             List<Integer> categoryIds = articleCategoryList.stream().map(articleCategory -> articleCategory.getId()).collect(Collectors.toList());
-            CategoryExample categoryExample = new CategoryExample();
-            categoryExample.createCriteria().andIdIn(categoryIds);
-            List<String> categoryList = categoryService.mapper().selectByExample(categoryExample)
-                    .stream()
-                    .map(tag -> tag.getName())
-                    .collect(Collectors.toList());
+            List<String> categoryList = new ArrayList<>();
+            if (categoryIds.size() != 0) {
+                CategoryExample categoryExample = new CategoryExample();
+                categoryExample.createCriteria().andIdIn(categoryIds);
+                categoryList = categoryService.mapper().selectByExample(categoryExample)
+                        .stream()
+                        .map(tag -> tag.getName())
+                        .collect(Collectors.toList());
+            }
 
             articleVO.setTagList(tagList);
             articleVO.setCategoryList(categoryList);
