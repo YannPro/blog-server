@@ -11,7 +11,7 @@ import java.util.List;
 @Service
 public abstract class BaseService<D extends BaseBean, Ex> {
 
-    public D getById(Long id) {
+    public D getById(Integer id) {
         try {
 //            if (cacheClient() != null) {
 //                DTO dto = cacheClient().get(id);
@@ -33,7 +33,7 @@ public abstract class BaseService<D extends BaseBean, Ex> {
         }
     }
 
-    private D get(Long id) throws IllegalAccessException, InstantiationException {
+    private D get(Integer id) throws IllegalAccessException, InstantiationException {
         D d = mapper().selectByPrimaryKey(id);
         return d;
 //        if (d == null && cacheClient() != null) {
@@ -110,7 +110,7 @@ public abstract class BaseService<D extends BaseBean, Ex> {
 //    //D转化成DTO的方法
 //    abstract DTO transfer(D d);
 
-    public int delete(Long id) {
+    public int delete(Integer id) {
 //        if (cacheClient() != null) {
 //            cacheClient().remove(id);
 //        }

@@ -51,7 +51,7 @@ public class CategoryService extends BaseService<Category, CategoryExample>{
     }
 
     @Transactional
-    public BaseResponse deleteCategory (Long id) {
+    public BaseResponse deleteCategory (Integer id) {
         mapper().deleteByPrimaryKey(id);
         return new BaseResponse();
     }

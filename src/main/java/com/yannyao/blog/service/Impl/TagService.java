@@ -48,7 +48,7 @@ public class TagService extends BaseService<Tag, TagExample>{
     }
 
     @Transactional
-    public BaseResponse deleteTag (Long id) {
+    public BaseResponse deleteTag (Integer id) {
         mapper().deleteByPrimaryKey(id);
         return new BaseResponse();
     }

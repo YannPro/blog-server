@@ -11,6 +11,8 @@ public class ArticleTag extends BaseBean {
 
     private Date updateTime;
 
+    private Integer seqId;
+
     public Integer getArticleId() {
         return articleId;
     }
@@ -41,5 +43,13 @@ public class ArticleTag extends BaseBean {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getSeqId() {
+        return seqId;
+    }
+
+    public void setSeqId(Integer seqId) {
+        this.seqId = seqId;
     }
 }

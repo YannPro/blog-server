@@ -8,6 +8,7 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="seqId" property="seqid" jdbcType="INTEGER" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -68,7 +69,7 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, category_id, article_id, status, create_time, update_time
+    id, category_id, article_id, status, create_time, update_time, seqId
   </sql>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yannyao.blog.bean.ArticleCategoryExample" >
     select
@@ -102,11 +103,11 @@
   </delete>
   <insert id="insert" parameterType="com.yannyao.blog.bean.ArticleCategory" >
     insert into article_category (id, category_id, article_id, 
-      status, create_time, update_time
-      )
+      status, create_time, update_time, 
+      seqId)
     values (#{id,jdbcType=INTEGER}, #{categoryId,jdbcType=INTEGER}, #{articleId,jdbcType=INTEGER}, 
-      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
-      )
+      #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{seqid,jdbcType=INTEGER})
   </insert>
   <insert id="insertSelective" parameterType="com.yannyao.blog.bean.ArticleCategory" >
     insert into article_category
@@ -129,6 +130,9 @@
       <if test="updateTime != null" >
         update_time,
       </if>
+      <if test="seqid != null" >
+        seqId,
+      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -148,6 +152,9 @@
       </if>
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="seqid != null" >
+        #{seqid,jdbcType=INTEGER},
       </if>
     </trim>
   </insert>
@@ -178,6 +185,9 @@
       <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="record.seqid != null" >
+        seqId = #{record.seqid,jdbcType=INTEGER},
+      </if>
     </set>
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
@@ -190,7 +200,8 @@
       article_id = #{record.articleId,jdbcType=INTEGER},
       status = #{record.status,jdbcType=INTEGER},
       create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP}
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      seqId = #{record.seqid,jdbcType=INTEGER}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -213,6 +224,9 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
+      <if test="seqid != null" >
+        seqId = #{seqid,jdbcType=INTEGER},
+      </if>
     </set>
     where id = #{id,jdbcType=INTEGER}
   </update>
@@ -222,7 +236,8 @@
       article_id = #{articleId,jdbcType=INTEGER},
       status = #{status,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      seqId = #{seqid,jdbcType=INTEGER}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <select resultMap="BaseResultMap" parameterType="com.yannyao.blog.bean.ArticleCategoryExample" id="selectByExampleWithRowbounds" >

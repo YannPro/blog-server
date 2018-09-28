@@ -5,8 +5,6 @@ import java.util.Date;
 public class Category extends BaseBean {
     private String name;
 
-    private Integer sort;
-
     private Date createTime;
 
     private Date updateTime;
@@ -17,14 +15,6 @@ public class Category extends BaseBean {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Integer getSort() {
-        return sort;
-    }
-
-    public void setSort(Integer sort) {
-        this.sort = sort;
     }
 
     public Date getCreateTime() {

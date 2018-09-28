@@ -8,8 +8,10 @@ import java.util.List;
 public interface BaseMapper<T, Ex> {
     int countByExample(Ex ex);
 
-    int deleteByPrimaryKey(Long id);
+    int deleteByPrimaryKey(Integer id);
+
     int deleteByExample(Ex ex);
+
     int insert(T t);
 
     int insertSelective(T record);
@@ -18,7 +20,7 @@ public interface BaseMapper<T, Ex> {
 
     List <T> selectByExample(Ex ex);
 
-    T selectByPrimaryKey(Long id);
+    T selectByPrimaryKey(Integer id);
 
     int updateByExampleSelective(@Param("record") T t, @Param("example") Ex e);
 

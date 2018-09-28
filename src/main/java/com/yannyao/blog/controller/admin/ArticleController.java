@@ -5,6 +5,7 @@ import com.yannyao.blog.bean.BaseTableMessage;
 import com.yannyao.blog.bean.Message;
 import com.yannyao.blog.common.module.vo.ArticleVO;
 import com.yannyao.blog.common.request.ListArticleRequest;
+import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.common.response.PageResponse;
 import com.yannyao.blog.service.Impl.ArticleService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -55,23 +56,16 @@ public class ArticleController {
     public PageResponse<ArticleVO> listArticle(ListArticleRequest request){
         return articleService.listArticle(request);
     }
-//    /**
-//     * 根据id查询文章
-//     * @param id
-//     * @return
-//     */
-//    @RequestMapping(value = "/{id}", method = RequestMethod.GET)
-//    @ResponseBody
-//    public Message getById(@PathVariable("id") Integer id){
-//        Article article = new Article();
-//        try {
-//            article = articleService.getById(id);
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new Message(Message.ERROR,"获取文章失败！", null);
-//        }
-//        return new Message(Message.SUCCESS,"获取文章成功！",article);
-//    }
+    /**
+     * 根据id查询文章
+     * @param id
+     * @return
+     */
+    @GetMapping("/{id}")
+    @ResponseBody
+    public BaseResponse<ArticleVO> getArticle(@PathVariable("id") Integer id){
+        return articleService.getArticle(id);
+    }
 //
 //    /**
 //     * 根据
@@ -126,23 +120,10 @@ public class ArticleController {
 //            return new Message(Message.ERROR,"修改文章失败！",null);
 //        }
 //    }
-//    /**
-//     * 删除文章
-//     * @param id
-//     * @return
-//     */
-//    @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
-//    @ResponseBody
-//    public Message delete(@PathVariable(value = "id") Integer id){
-//        try {
-//            if(articleService.delete(id)){
-//                return new Message(Message.SUCCESS,"删除文章成功！",null);
-//            }else{
-//                return new Message(Message.ERROR,"删除文章失败！",null);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new Message(Message.ERROR,"删除文章失败！",null);
-//        }
-//    }
+
+    @DeleteMapping("/{id}")
+    @ResponseBody
+    public BaseResponse deleteArticle(@PathVariable(value = "id") Integer id){
+        return articleService.deleteArticle(id);
+    }
 }

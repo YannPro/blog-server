@@ -3,6 +3,7 @@ package com.yannyao.blog.service.Impl;
 import com.yannyao.blog.bean.*;
 import com.yannyao.blog.common.module.vo.ArticleVO;
 import com.yannyao.blog.common.request.ListArticleRequest;
+import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.common.response.PageResponse;
 import com.yannyao.blog.mapper.*;
 import org.slf4j.Logger;
@@ -24,29 +25,22 @@ import java.util.stream.Collectors;
 public class ArticleService extends BaseService<Article, ArticleExample>{
 
     private final Logger logger = LoggerFactory.getLogger(ArticleService.class);
-//    @Autowired
-//    private ArticleMapper articleMapper;
-//    @Autowired
-//    private ClassMapper classMapper;
-//    @Autowired
-//    private TRArticleTagMapper trArticleTagMapper;
-//    @Autowired
-//    private TRArticleClassMapper trArticleClassMapper;
-//    @Autowired
-//    private TagMapper tagMapper;
-//    @Autowired
-//    private SearchService searchService;
 
     @Autowired
     private ArticleMapper articleMapper;
+
     @Autowired
     private TagService tagService;
+
     @Autowired
     private ArticleTagService articleTagService;
+
     @Autowired
     private ArticleCategoryService articleCategoryService;
+
     @Autowired
     private CategoryService categoryService;
+
     public List<Article> getAll() throws Exception {
         List<Article> articleList = new ArrayList<>();
         List<ArticleTag> tagList = new ArrayList<>();
@@ -80,56 +74,60 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
         for (Article article: articleList){
             ArticleVO articleVO = new ArticleVO();
             BeanUtils.copyProperties(article, articleVO);
-
-            ArticleTagExample articleTagExample = new ArticleTagExample();
-            articleTagExample.createCriteria().andArticleIdEqualTo(article.getId());
-            List<ArticleTag> articleTagList = articleTagService.mapper().selectByExample(articleTagExample);
-            List<Integer> tagIds = articleTagList.stream().map(articleTag -> articleTag.getId()).collect(Collectors.toList());
-            List<String> tagList = new ArrayList<>();
-            if (tagIds.size() != 0) {
-                TagExample tagExample = new TagExample();
-                tagExample.createCriteria().andIdIn(tagIds);
-                tagList = tagService.mapper().selectByExample(tagExample)
-                        .stream()
-                        .map(tag -> tag.getName())
-                        .collect(Collectors.toList());
-            }
-
-            ArticleCategoryExample articleCategoryExample = new ArticleCategoryExample();
-            articleCategoryExample.createCriteria().andArticleIdEqualTo(article.getId());
-            List<ArticleCategory> articleCategoryList = articleCategoryService.mapper().selectByExample(articleCategoryExample);
-            List<Integer> categoryIds = articleCategoryList.stream().map(articleCategory -> articleCategory.getId()).collect(Collectors.toList());
-            List<String> categoryList = new ArrayList<>();
-            if (categoryIds.size() != 0) {
-                CategoryExample categoryExample = new CategoryExample();
-                categoryExample.createCriteria().andIdIn(categoryIds);
-                categoryList = categoryService.mapper().selectByExample(categoryExample)
-                        .stream()
-                        .map(tag -> tag.getName())
-                        .collect(Collectors.toList());
-            }
-
-            articleVO.setTagList(tagList);
-            articleVO.setCategoryList(categoryList);
+            injectTagAndCategory(article, articleVO);
             articleVOList.add(articleVO);
         }
         response.setData(articleVOList);
         return response;
     }
 
-    public Article getById(Integer id) {
-        Article article = new Article();
-//        try {
-//            article = articleMapper.getById(id);
-//            article.setTagList(tagMapper.getListByArticleId(id));
-//            article.setClassList(classMapper.getListByArticleId(id));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return null;
-//        }
-        return article;
+    public BaseResponse<ArticleVO> getArticle(Integer id) {
+        ArticleExample articleExample = new ArticleExample();
+        articleExample.createCriteria().andIdEqualTo(id);
+        Article article = getByExample(articleExample);
+        ArticleVO articleVO = new ArticleVO();
+        BeanUtils.copyProperties(article, articleVO);
+        injectTagAndCategory(article, articleVO);
+        BaseResponse<ArticleVO> response = new BaseResponse<>();
+        return response.setData(articleVO);
     }
 
+    /**
+     * 注入tag和category
+     * @param article
+     * @param articleVO
+     */
+    public void injectTagAndCategory(Article article, ArticleVO articleVO){
+        ArticleTagExample articleTagExample = new ArticleTagExample();
+        articleTagExample.createCriteria().andArticleIdEqualTo(article.getId());
+        List<ArticleTag> articleTagList = articleTagService.mapper().selectByExample(articleTagExample);
+        List<Integer> tagIds = articleTagList.stream().map(articleTag -> articleTag.getId()).collect(Collectors.toList());
+        List<String> tagList = new ArrayList<>();
+        if (tagIds.size() != 0) {
+            TagExample tagExample = new TagExample();
+            tagExample.createCriteria().andIdIn(tagIds);
+            tagList = tagService.mapper().selectByExample(tagExample)
+                    .stream()
+                    .map(tag -> tag.getName())
+                    .collect(Collectors.toList());
+        }
+
+        ArticleCategoryExample articleCategoryExample = new ArticleCategoryExample();
+        articleCategoryExample.createCriteria().andArticleIdEqualTo(article.getId());
+        List<ArticleCategory> articleCategoryList = articleCategoryService.mapper().selectByExample(articleCategoryExample);
+        List<Integer> categoryIds = articleCategoryList.stream().map(articleCategory -> articleCategory.getId()).collect(Collectors.toList());
+        List<String> categoryList = new ArrayList<>();
+        if (categoryIds.size() != 0) {
+            CategoryExample categoryExample = new CategoryExample();
+            categoryExample.createCriteria().andIdIn(categoryIds);
+            categoryList = categoryService.mapper().selectByExample(categoryExample)
+                    .stream()
+                    .map(tag -> tag.getName())
+                    .collect(Collectors.toList());
+        }
+        articleVO.setTagList(tagList);
+        articleVO.setCategoryList(categoryList);
+    }
     public BaseTableMessage getSearchList(BaseTableMessage tableMessage) throws Exception {
         return null;
     }
@@ -218,14 +216,9 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
         return result;
     }
 
-    public boolean delete(Integer id) {
-        boolean state = false;
-//        try {
-//            state = articleMapper.delete(id) == 1 ? true : false;
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-        return state;
+    public BaseResponse deleteArticle(Integer id) {
+        mapper().deleteByPrimaryKey(id);
+        return new BaseResponse();
     }
 
     @Override

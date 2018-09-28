@@ -13,6 +13,8 @@ public class ArticleCategory extends BaseBean {
 
     private Date updateTime;
 
+    private Integer seqid;
+
     public Integer getCategoryId() {
         return categoryId;
     }
@@ -51,5 +53,13 @@ public class ArticleCategory extends BaseBean {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    public Integer getSeqid() {
+        return seqid;
+    }
+
+    public void setSeqid(Integer seqid) {
+        this.seqid = seqid;
     }
 }

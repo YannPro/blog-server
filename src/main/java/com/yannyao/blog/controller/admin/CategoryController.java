@@ -32,7 +32,7 @@ public class CategoryController {
 
     @DeleteMapping("/{id}")
     @ResponseBody
-    public BaseResponse delete(@PathVariable(value = "id") Long id){
+    public BaseResponse delete(@PathVariable(value = "id") Integer id){
         return categoryService.deleteCategory(id);
     }
 }

@@ -404,6 +404,66 @@ public class ArticleTagExample {
             addCriterion("update_time not between", value1, value2, "updateTime");
             return (Criteria) this;
         }
+
+        public Criteria andSeqIdIsNull() {
+            addCriterion("seq_id is null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdIsNotNull() {
+            addCriterion("seq_id is not null");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdEqualTo(Integer value) {
+            addCriterion("seq_id =", value, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdNotEqualTo(Integer value) {
+            addCriterion("seq_id <>", value, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdGreaterThan(Integer value) {
+            addCriterion("seq_id >", value, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdGreaterThanOrEqualTo(Integer value) {
+            addCriterion("seq_id >=", value, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdLessThan(Integer value) {
+            addCriterion("seq_id <", value, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdLessThanOrEqualTo(Integer value) {
+            addCriterion("seq_id <=", value, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdIn(List<Integer> values) {
+            addCriterion("seq_id in", values, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdNotIn(List<Integer> values) {
+            addCriterion("seq_id not in", values, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdBetween(Integer value1, Integer value2) {
+            addCriterion("seq_id between", value1, value2, "seqId");
+            return (Criteria) this;
+        }
+
+        public Criteria andSeqIdNotBetween(Integer value1, Integer value2) {
+            addCriterion("seq_id not between", value1, value2, "seqId");
+            return (Criteria) this;
+        }
     }
 
     public static class Criteria extends GeneratedCriteria {
