@@ -1,11 +1,9 @@
-package com.yannyao.blog.constant;
+package com.yannyao.blog.common.constant;
 
 import org.springframework.stereotype.Component;
 
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by YannYao on 2017/3/3.
@@ -58,4 +56,12 @@ public class WebConst {
      * 成功返回
      */
     public static String SUCCESS_RESULT = "SUCCESS";
+
+    /**
+     * 评论类型
+     */
+    // 文章评论
+    public static final int COMMENT_TYPE_ARTICLE = 0;
+    // 其他评论
+    public static final int COMMENT_TYPE_OTHER = 1;
 }

@@ -2,6 +2,7 @@ package com.yannyao.blog.service.Impl;
 
 import com.yannyao.blog.bean.*;
 import com.yannyao.blog.common.module.vo.ArticleVO;
+import com.yannyao.blog.common.request.AddArticleRequest;
 import com.yannyao.blog.common.request.ListArticleRequest;
 import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.common.response.PageResponse;
@@ -10,6 +11,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
 
 import java.util.ArrayList;
@@ -133,72 +135,31 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
     }
 
 
-    public Article add(Article article) {
-        Article result = null;
-//        try {
-//            List<ArticleTag> tagList = tagMapper.getList();
-//            List<ArticleClass> classList = classMapper.getList();
-//            ArticleTag articleTag = new ArticleTag();
-//            ArticleClass articleClass = new ArticleClass();
-//            TRArticleTag t = new TRArticleTag();
-//            TRArticleClass c = new TRArticleClass();
-//            articleMapper.insert(article);
-//            searchService.indexPro(article.getId());
-//            result = articleMapper.getById(article.getId());
-//
-//            //向数据库插入文章标签关系
-//            for(ArticleTag aTag: article.getTagList()){
-//                boolean hasTag = false;
-//                for(ArticleTag tag: tagList){
-//                    if(tag.getTagName().equals(aTag.getTagName())){
-//                        t.setArticleId(result.getId());
-//                        t.setTagId(tag.getId());
-//                        trArticleTagMapper.insert(t);
-//                        hasTag = true;
-//                        break;
-//                    }
-//                }
-//                //如果数据库中没有这个标签
-//                if(!hasTag){
-//                    articleTag.setTagName(aTag.getTagName());
-//                    tagMapper.insert(articleTag);
-//                    ArticleTag resultTag = tagMapper.getById(articleTag.getId());
-//                    t.setArticleId(result.getId());
-//                    t.setTagId(resultTag.getId());
-//                    trArticleTagMapper.insert(t);
-//                }
-//            }
-//
-//            //向数据库插入文章类别关系
-//            for(ArticleClass aClass: article.getClassList()){
-//                boolean hasClass = false;
-//
-//                for(ArticleClass clazz: classList){
-//
-//                    if(clazz.getClassName().equals(aClass.getClassName())){
-//                        c.setArticleId(result.getId());
-//                        c.setClassId(clazz.getId());
-//                        trArticleClassMapper.insert(c);
-//                        hasClass = true;
-//                        break;
-//                    }
-//                    //如果数据库中没有这个类别
-//                    if(!hasClass){
-//                        articleClass.setClassName(aClass.getClassName());
-//                        classMapper.insert(articleClass);
-//                        ArticleClass resultClass = classMapper.getById(articleClass.getId());
-//                        c.setArticleId(result.getId());
-//                        c.setClassId(resultClass.getId());
-//                        trArticleClassMapper.insert(c);
-//                    }
-//                }
-//
-//            }
-//            result = articleMapper.getById(article.getId());
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-        return result;
+    public BaseResponse addArticle(AddArticleRequest request) {
+        Article article = new Article();
+        BeanUtils.copyProperties(request, article);
+        insertSelective(article);
+        request.getCategoryIds().forEach(id -> {
+            Category category = categoryService.mapper().selectByPrimaryKey(id);
+            if (category != null) {
+                ArticleCategory articleCategory = new ArticleCategory();
+                articleCategory.setSeqId(request.getCategoryIds().indexOf(id));
+                articleCategory.setArticleId(article.getId());
+                articleCategory.setCategoryId(category.getId());
+                articleCategoryService.insertSelective(articleCategory);
+            }
+        });
+        request.getTagIds().forEach(id -> {
+            Tag tag = tagService.mapper().selectByPrimaryKey(id);
+            if (tag != null) {
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setSeqId(request.getCategoryIds().indexOf(id));
+                articleTag.setArticleId(article.getId());
+                articleTag.setTagId(tag.getId());
+                articleTagService.insertSelective(articleTag);
+            }
+        });
+        return new BaseResponse();
     }
 
     public Article update(Article article) {

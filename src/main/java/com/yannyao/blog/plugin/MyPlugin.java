@@ -37,4 +37,5 @@ public class MyPlugin extends PluginAdapter {
         interfaze.getAnnotations().clear();
         return true;
     }
+
 }

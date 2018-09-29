@@ -4,6 +4,7 @@ import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.bean.BaseTableMessage;
 import com.yannyao.blog.bean.Message;
 import com.yannyao.blog.common.module.vo.ArticleVO;
+import com.yannyao.blog.common.request.AddArticleRequest;
 import com.yannyao.blog.common.request.ListArticleRequest;
 import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.common.response.PageResponse;
@@ -78,26 +79,11 @@ public class ArticleController {
 //        System.out.println(tableMessage);
 //        return articleService.getSearchList(tableMessage).result();
 //    }
-//    /**
-//     * 新增文章
-//     * @param article
-//     * @return
-//     */
-//    @RequestMapping(value = "", method = RequestMethod.POST)
-//    @ResponseBody
-//    public Message add(@RequestBody Article article){
-//        try {
-//            Article result = articleService.add(article);
-//            if(result.getId() > 0){
-//                return new Message(Message.SUCCESS,"新增文章成功！",result);
-//            }else{
-//                return new Message(Message.ERROR,"新增文章失败！",null);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new Message(Message.ERROR,"新增文章失败！",null);
-//        }
-//    }
+    @PostMapping
+    @ResponseBody
+    public BaseResponse addArticle(@RequestBody AddArticleRequest request){
+        return articleService.addArticle(request);
+    }
 //
 //    /**
 //     * 修改文章
