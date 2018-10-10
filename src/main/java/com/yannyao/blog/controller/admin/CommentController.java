@@ -21,9 +21,10 @@ public class CommentController {
     public PageResponse<Comment> listArticleComment(IdRequest request){
         return commentService.listArticleComment(request);
     }
+
     @RequestMapping(value = "/{id}", method = RequestMethod.DELETE)
     @ResponseBody
     public Message delete(@PathVariable(value = "id") Integer id){
-    return null;
+        return null;
     }
 }
