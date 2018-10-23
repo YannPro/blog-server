@@ -1,0 +1,43 @@
+server:
+  port: 8086
+  session:
+    timeout: 1800000
+
+spring:
+  datasource:
+    driver-class-name: com.mysql.jdbc.Driver
+    username: root
+    password: 123456
+    url: jdbc:mysql://127.0.0.1/blog?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
+    ip: 127.0.0.1
+    port: 3306
+    database: blog
+
+  #es
+  data:
+    elasticsearch:
+      repositories:
+        enabled: true
+      cluster-nodes: 127.0.0.1:9300
+
+  thymeleaf:
+    cache: false
+    check-template: false
+    mode: LEGACYHTML5
+
+  http:
+    multipart:
+      max-file-size: 50MB
+      max-request-size: 50MB
+
+mybatis:
+  mapper-locations: classpath:mapper/*.xml
+  type-aliases-package: com.yannyao.blog.mapper
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+com:
+  yannyao:
+    custom:
+      windows-path: d:/yannyao
+      linux-path: /yannyao
