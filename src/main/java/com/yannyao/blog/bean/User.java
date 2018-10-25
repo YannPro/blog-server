@@ -1,21 +1,8 @@
 package com.yannyao.blog.bean;
 
-import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
-import com.yannyao.blog.config.CustomJsonDateDeserializer;
-import lombok.Data;
-
 import java.util.Date;
-import java.util.List;
 
-/**
- * @Author: YannYao
- * @Description:
- * @Date Created in 13:03 2017/12/11
- */
-@Data
-public class User {
-    private Integer id;
-
+public class User extends BaseBean {
     private String username;
 
     private String password;
@@ -24,12 +11,55 @@ public class User {
 
     private String email;
 
-    private String avatarImage;
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date createTime;
 
-    @JsonDeserialize(using = CustomJsonDateDeserializer.class)
     private Date updateTime;
 
-    private Role role;
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
+    }
+
+    public String getNickname() {
+        return nickname;
+    }
+
+    public void setNickname(String nickname) {
+        this.nickname = nickname;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+    public Date getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(Date createTime) {
+        this.createTime = createTime;
+    }
+
+    public Date getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(Date updateTime) {
+        this.updateTime = updateTime;
+    }
 }

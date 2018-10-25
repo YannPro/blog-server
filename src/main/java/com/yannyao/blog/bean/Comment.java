@@ -11,6 +11,8 @@ public class Comment extends BaseBean {
 
     private Integer replyUserId;
 
+    private String content;
+
     private String ip;
 
     private Integer status;
@@ -20,8 +22,6 @@ public class Comment extends BaseBean {
     private Date updateTime;
 
     private Integer type;
-
-    private String content;
 
     public Integer getArticleId() {
         return articleId;
@@ -53,6 +53,14 @@ public class Comment extends BaseBean {
 
     public void setReplyUserId(Integer replyUserId) {
         this.replyUserId = replyUserId;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getIp() {
@@ -93,13 +101,5 @@ public class Comment extends BaseBean {
 
     public void setType(Integer type) {
         this.type = type;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 }

@@ -11,7 +11,7 @@ import javax.validation.Valid;
 import java.util.List;
 
 @RestController
-@RequestMapping("/admin/class")
+@RequestMapping("/admin/category")
 public class CategoryController {
 
     @Autowired
@@ -24,9 +24,9 @@ public class CategoryController {
         return categoryService.listCategory();
     }
 
-    @PostMapping("/addTag")
+    @PostMapping("/addCategory")
     @ResponseBody
-    public BaseResponse addTag(@Valid AddCategoryRequest request){
+    public BaseResponse addCategory(@Valid AddCategoryRequest request){
         return categoryService.addCategory(request);
     }
 

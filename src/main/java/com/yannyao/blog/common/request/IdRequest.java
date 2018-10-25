@@ -1,6 +1,8 @@
 package com.yannyao.blog.common.request;
 
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 /**
  * @Auther: YJY
@@ -8,6 +10,8 @@ import lombok.Data;
  * @Description:
  */
 @Data
+@AllArgsConstructor
+@NoArgsConstructor
 public class IdRequest {
     private Integer id;
 }

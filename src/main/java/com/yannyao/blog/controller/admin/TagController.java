@@ -1,7 +1,5 @@
 package com.yannyao.blog.controller.admin;
 
-import com.yannyao.blog.bean.ArticleTag;
-import com.yannyao.blog.bean.Message;
 import com.yannyao.blog.bean.Tag;
 import com.yannyao.blog.common.request.AddTagRequest;
 import com.yannyao.blog.common.response.BaseResponse;
@@ -10,7 +8,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import javax.validation.constraints.NotNull;
 import java.util.List;
 
 @RestController

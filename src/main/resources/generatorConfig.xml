@@ -82,8 +82,9 @@
         <!--<table tableName="comment" domainObjectName="Comment">-->
             <!--<property name="useActualColumnNames" value="false"/>-->
         <!--</table>-->
-        <table tableName="friend_link" domainObjectName="FriendLink">
-        <property name="useActualColumnNames" value="false"/>
+        <table tableName="user" domainObjectName="User">
+            <property name="useActualColumnNames" value="false"/>
+            <!--<columnOverride column="content" javaType="java.lang.String" jdbcType="VARCHAR" />-->
         </table>
     </context>
 </generatorConfiguration>

@@ -32,7 +32,7 @@ public class FriendLinkService extends BaseService<FriendLink, FriendLinkExample
     public BaseResponse<List<FriendLink>> listFriendLink () {
         BaseResponse<List<FriendLink>> response = new BaseResponse<>();
         FriendLinkExample friendLinkExample = new FriendLinkExample();
-        friendLinkExample.setOrderByClause("seqId asc");
+        friendLinkExample.setOrderByClause("seq_id asc");
         List<FriendLink> friendLinkList = listByExample(friendLinkExample, 0, 0);
         return response.setData(friendLinkList);
     }
