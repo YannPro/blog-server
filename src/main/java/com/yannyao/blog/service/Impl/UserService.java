@@ -5,6 +5,7 @@ import com.yannyao.blog.bean.UserExample;
 import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.mapper.BaseMapper;
 import com.yannyao.blog.mapper.UserMapper;
+import com.yannyao.web.dubbo.UserDubboConsumerService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
@@ -23,6 +24,9 @@ public class UserService extends BaseService<User, UserExample>{
     @Autowired
     private UserMapper userMapper;
 
+    @Autowired
+    private UserDubboConsumerService userDubboConsumerService;
+
     @Override
     BaseMapper<User, UserExample> mapper() {
         return userMapper;
@@ -35,6 +39,7 @@ public class UserService extends BaseService<User, UserExample>{
 //    }
     public BaseResponse<User> getUser (Integer userId) {
         BaseResponse<User> response = new BaseResponse<>();
+        userDubboConsumerService.printCity();
         User user = userMapper.selectByPrimaryKey(userId);
         return response.setData(user);
     }

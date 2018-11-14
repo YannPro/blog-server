@@ -13,6 +13,7 @@ spring:
     port: 3306
     database: blog
 
+
   #es
   data:
     elasticsearch:
@@ -29,6 +30,9 @@ spring:
     multipart:
       max-file-size: 50MB
       max-request-size: 50MB
+
+logging:
+  config: classpath:logback-boot-local.xml
 
 mybatis:
   mapper-locations: classpath:mapper/*.xml

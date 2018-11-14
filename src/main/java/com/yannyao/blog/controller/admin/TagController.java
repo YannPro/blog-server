@@ -25,7 +25,7 @@ public class TagController {
 
     @PostMapping
     @ResponseBody
-    public BaseResponse addTag(@Valid AddTagRequest request){
+    public BaseResponse addTag(@Valid @RequestBody AddTagRequest request){
         return tagService.addTag(request);
     }
 

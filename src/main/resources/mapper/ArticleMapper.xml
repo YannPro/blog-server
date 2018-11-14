@@ -4,6 +4,7 @@
   <resultMap id="BaseResultMap" type="com.yannyao.blog.bean.Article" >
     <id column="id" property="id" jdbcType="INTEGER" />
     <result column="title" property="title" jdbcType="VARCHAR" />
+    <result column="content" property="content" jdbcType="VARCHAR" />
     <result column="description" property="description" jdbcType="VARCHAR" />
     <result column="admin_id" property="adminId" jdbcType="INTEGER" />
     <result column="image" property="image" jdbcType="VARCHAR" />
@@ -15,9 +16,6 @@
     <result column="status" property="status" jdbcType="INTEGER" />
     <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
     <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
-  </resultMap>
-  <resultMap id="ResultMapWithBLOBs" type="com.yannyao.blog.bean.Article" extends="BaseResultMap" >
-    <result column="content" property="content" jdbcType="LONGVARCHAR" />
   </resultMap>
   <sql id="Example_Where_Clause" >
     <where >
@@ -78,28 +76,9 @@
     </where>
   </sql>
   <sql id="Base_Column_List" >
-    id, title, description, admin_id, image, click, likes, dislike, comment_count, commend, 
-    status, create_time, update_time
+    id, title, content, description, admin_id, image, click, likes, dislike, comment_count, 
+    commend, status, create_time, update_time
   </sql>
-  <sql id="Blob_Column_List" >
-    content
-  </sql>
-  <select id="selectByExampleWithBLOBs" resultMap="ResultMapWithBLOBs" parameterType="com.yannyao.blog.bean.ArticleExample" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from article
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.yannyao.blog.bean.ArticleExample" >
     select
     <if test="distinct" >
@@ -114,11 +93,9 @@
       order by ${orderByClause}
     </if>
   </select>
-  <select id="selectByPrimaryKey" resultMap="ResultMapWithBLOBs" parameterType="java.lang.Integer" >
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
     select 
     <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
     from article
     where id = #{id,jdbcType=INTEGER}
   </select>
@@ -133,16 +110,16 @@
     </if>
   </delete>
   <insert id="insert" parameterType="com.yannyao.blog.bean.Article" >
-    insert into article (id, title, description, 
-      admin_id, image, click, 
-      likes, dislike, comment_count, 
-      commend, status, create_time, 
-      update_time, content)
-    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{description,jdbcType=VARCHAR}, 
-      #{adminId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, #{click,jdbcType=INTEGER}, 
-      #{likes,jdbcType=INTEGER}, #{dislike,jdbcType=INTEGER}, #{commentCount,jdbcType=INTEGER}, 
-      #{commend,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, 
-      #{updateTime,jdbcType=TIMESTAMP}, #{content,jdbcType=LONGVARCHAR})
+    insert into article (id, title, content, 
+      description, admin_id, image, 
+      click, likes, dislike, 
+      comment_count, commend, status, 
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{title,jdbcType=VARCHAR}, #{content,jdbcType=VARCHAR}, 
+      #{description,jdbcType=VARCHAR}, #{adminId,jdbcType=INTEGER}, #{image,jdbcType=VARCHAR}, 
+      #{click,jdbcType=INTEGER}, #{likes,jdbcType=INTEGER}, #{dislike,jdbcType=INTEGER}, 
+      #{commentCount,jdbcType=INTEGER}, #{commend,jdbcType=INTEGER}, #{status,jdbcType=INTEGER}, 
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
   </insert>
   <insert id="insertSelective" parameterType="com.yannyao.blog.bean.Article" >
     insert into article
@@ -152,6 +129,9 @@
       </if>
       <if test="title != null" >
         title,
+      </if>
+      <if test="content != null" >
+        content,
       </if>
       <if test="description != null" >
         description,
@@ -186,9 +166,6 @@
       <if test="updateTime != null" >
         update_time,
       </if>
-      <if test="content != null" >
-        content,
-      </if>
     </trim>
     <trim prefix="values (" suffix=")" suffixOverrides="," >
       <if test="id != null" >
@@ -196,6 +173,9 @@
       </if>
       <if test="title != null" >
         #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        #{content,jdbcType=VARCHAR},
       </if>
       <if test="description != null" >
         #{description,jdbcType=VARCHAR},
@@ -230,9 +210,6 @@
       <if test="updateTime != null" >
         #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="content != null" >
-        #{content,jdbcType=LONGVARCHAR},
-      </if>
     </trim>
   </insert>
   <select id="countByExample" parameterType="com.yannyao.blog.bean.ArticleExample" resultType="java.lang.Integer" >
@@ -249,6 +226,9 @@
       </if>
       <if test="record.title != null" >
         title = #{record.title,jdbcType=VARCHAR},
+      </if>
+      <if test="record.content != null" >
+        content = #{record.content,jdbcType=VARCHAR},
       </if>
       <if test="record.description != null" >
         description = #{record.description,jdbcType=VARCHAR},
@@ -283,30 +263,7 @@
       <if test="record.updateTime != null" >
         update_time = #{record.updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="record.content != null" >
-        content = #{record.content,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    <if test="_parameter != null" >
-      <include refid="Update_By_Example_Where_Clause" />
-    </if>
-  </update>
-  <update id="updateByExampleWithBLOBs" parameterType="map" >
-    update article
-    set id = #{record.id,jdbcType=INTEGER},
-      title = #{record.title,jdbcType=VARCHAR},
-      description = #{record.description,jdbcType=VARCHAR},
-      admin_id = #{record.adminId,jdbcType=INTEGER},
-      image = #{record.image,jdbcType=VARCHAR},
-      click = #{record.click,jdbcType=INTEGER},
-      likes = #{record.likes,jdbcType=INTEGER},
-      dislike = #{record.dislike,jdbcType=INTEGER},
-      comment_count = #{record.commentCount,jdbcType=INTEGER},
-      commend = #{record.commend,jdbcType=INTEGER},
-      status = #{record.status,jdbcType=INTEGER},
-      create_time = #{record.createTime,jdbcType=TIMESTAMP},
-      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
-      content = #{record.content,jdbcType=LONGVARCHAR}
     <if test="_parameter != null" >
       <include refid="Update_By_Example_Where_Clause" />
     </if>
@@ -315,6 +272,7 @@
     update article
     set id = #{record.id,jdbcType=INTEGER},
       title = #{record.title,jdbcType=VARCHAR},
+      content = #{record.content,jdbcType=VARCHAR},
       description = #{record.description,jdbcType=VARCHAR},
       admin_id = #{record.adminId,jdbcType=INTEGER},
       image = #{record.image,jdbcType=VARCHAR},
@@ -335,6 +293,9 @@
     <set >
       <if test="title != null" >
         title = #{title,jdbcType=VARCHAR},
+      </if>
+      <if test="content != null" >
+        content = #{content,jdbcType=VARCHAR},
       </if>
       <if test="description != null" >
         description = #{description,jdbcType=VARCHAR},
@@ -369,32 +330,13 @@
       <if test="updateTime != null" >
         update_time = #{updateTime,jdbcType=TIMESTAMP},
       </if>
-      <if test="content != null" >
-        content = #{content,jdbcType=LONGVARCHAR},
-      </if>
     </set>
-    where id = #{id,jdbcType=INTEGER}
-  </update>
-  <update id="updateByPrimaryKeyWithBLOBs" parameterType="com.yannyao.blog.bean.Article" >
-    update article
-    set title = #{title,jdbcType=VARCHAR},
-      description = #{description,jdbcType=VARCHAR},
-      admin_id = #{adminId,jdbcType=INTEGER},
-      image = #{image,jdbcType=VARCHAR},
-      click = #{click,jdbcType=INTEGER},
-      likes = #{likes,jdbcType=INTEGER},
-      dislike = #{dislike,jdbcType=INTEGER},
-      comment_count = #{commentCount,jdbcType=INTEGER},
-      commend = #{commend,jdbcType=INTEGER},
-      status = #{status,jdbcType=INTEGER},
-      create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP},
-      content = #{content,jdbcType=LONGVARCHAR}
     where id = #{id,jdbcType=INTEGER}
   </update>
   <update id="updateByPrimaryKey" parameterType="com.yannyao.blog.bean.Article" >
     update article
     set title = #{title,jdbcType=VARCHAR},
+      content = #{content,jdbcType=VARCHAR},
       description = #{description,jdbcType=VARCHAR},
       admin_id = #{adminId,jdbcType=INTEGER},
       image = #{image,jdbcType=VARCHAR},
@@ -408,22 +350,6 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=INTEGER}
   </update>
-  <select resultMap="ResultMapWithBLOBs" parameterType="com.yannyao.blog.bean.ArticleExample" id="selectByExampleWithBLOBsWithRowbounds" >
-    select
-    <if test="distinct" >
-      distinct
-    </if>
-    <include refid="Base_Column_List" />
-    ,
-    <include refid="Blob_Column_List" />
-    from article
-    <if test="_parameter != null" >
-      <include refid="Example_Where_Clause" />
-    </if>
-    <if test="orderByClause != null" >
-      order by ${orderByClause}
-    </if>
-  </select>
   <select resultMap="BaseResultMap" parameterType="com.yannyao.blog.bean.ArticleExample" id="selectByExampleWithRowbounds" >
     select
     <if test="distinct" >

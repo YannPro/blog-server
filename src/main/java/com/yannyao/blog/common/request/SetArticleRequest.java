@@ -1,5 +1,7 @@
 package com.yannyao.blog.common.request;
 
+import com.yannyao.blog.bean.Category;
+import com.yannyao.blog.bean.Tag;
 import com.yannyao.blog.common.validation.ParamNotNull;
 import lombok.Data;
 import lombok.experimental.Accessors;
@@ -13,7 +15,10 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class AddArticleRequest {
+public class SetArticleRequest {
+
+    private Integer id;
+
     private String title;
 
     private String description;
@@ -28,9 +33,7 @@ public class AddArticleRequest {
 
     private String content;
 
-    @ParamNotNull("标签")
-    private List<Integer> tagIds;
+    private List<Tag> tagList;
 
-    @ParamNotNull("类目")
-    private List<Integer> categoryIds;
+    private List<Category> categoryList;
 }

@@ -3,8 +3,10 @@ package com.yannyao.blog;
 import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.DeserializationFeature;
 import com.fasterxml.jackson.databind.ObjectMapper;
+import com.yannyao.web.dubbo.impl.CityDubboConsumerService;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.scheduling.annotation.EnableScheduling;
@@ -44,6 +46,8 @@ public class DemoApplication extends WebMvcConfigurerAdapter {
 	}
 
 	public static void main(String[] args) {
-		SpringApplication.run(DemoApplication.class, args);
+		ConfigurableApplicationContext run = SpringApplication.run(DemoApplication.class, args);
+//		CityDubboConsumerService cityService = run.getBean(CityDubboConsumerService.class);
+//		cityService.printCity();
 	}
 }

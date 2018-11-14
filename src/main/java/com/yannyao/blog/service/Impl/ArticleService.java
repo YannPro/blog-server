@@ -1,11 +1,16 @@
 package com.yannyao.blog.service.Impl;
 
+import com.alibaba.dubbo.config.annotation.Reference;
 import com.yannyao.blog.bean.*;
+import com.yannyao.blog.common.exception.BaseErrors;
+import com.yannyao.blog.common.exception.BusinessException;
 import com.yannyao.blog.common.module.vo.ArticleVO;
-import com.yannyao.blog.common.request.AddArticleRequest;
+import com.yannyao.blog.common.request.AddCategoryRequest;
+import com.yannyao.blog.common.request.SetArticleRequest;
 import com.yannyao.blog.common.request.ListArticleRequest;
 import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.common.response.PageResponse;
+import com.yannyao.blog.common.util.ObjectUtil;
 import com.yannyao.blog.mapper.*;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +18,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -103,57 +109,68 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
         ArticleTagExample articleTagExample = new ArticleTagExample();
         articleTagExample.createCriteria().andArticleIdEqualTo(article.getId());
         List<ArticleTag> articleTagList = articleTagService.mapper().selectByExample(articleTagExample);
-        List<Integer> tagIds = articleTagList.stream().map(articleTag -> articleTag.getId()).collect(Collectors.toList());
-        List<String> tagList = new ArrayList<>();
-        if (tagIds.size() != 0) {
-            TagExample tagExample = new TagExample();
-            tagExample.createCriteria().andIdIn(tagIds);
-            tagList = tagService.mapper().selectByExample(tagExample)
-                    .stream()
-                    .map(tag -> tag.getName())
-                    .collect(Collectors.toList());
-        }
+        List<Tag> tagList = new ArrayList<>();
+        articleTagList.stream().forEach(articleTag -> {
+            Tag tag = tagService.mapper().selectByPrimaryKey(articleTag.getTagId());
+            if (tag != null) {
+                tagList.add(tag);
+            }
+        });
+        articleVO.setTagList(tagList);
 
         ArticleCategoryExample articleCategoryExample = new ArticleCategoryExample();
         articleCategoryExample.createCriteria().andArticleIdEqualTo(article.getId());
         List<ArticleCategory> articleCategoryList = articleCategoryService.mapper().selectByExample(articleCategoryExample);
-        List<Integer> categoryIds = articleCategoryList.stream().map(articleCategory -> articleCategory.getId()).collect(Collectors.toList());
-        List<String> categoryList = new ArrayList<>();
-        if (categoryIds.size() != 0) {
-            CategoryExample categoryExample = new CategoryExample();
-            categoryExample.createCriteria().andIdIn(categoryIds);
-            categoryList = categoryService.mapper().selectByExample(categoryExample)
-                    .stream()
-                    .map(tag -> tag.getName())
-                    .collect(Collectors.toList());
-        }
-        articleVO.setTagList(tagList);
+        List<Category> categoryList = new ArrayList<>();
+        articleCategoryList.stream().forEach(articleCategory -> {
+            Category category = categoryService.mapper().selectByPrimaryKey(articleCategory.getCategoryId());
+            if (category != null) {
+                categoryList.add(category);
+            }
+        });
         articleVO.setCategoryList(categoryList);
+
+//        ArticleCategoryExample articleCategoryExample = new ArticleCategoryExample();
+//        articleCategoryExample.createCriteria().andArticleIdEqualTo(article.getId());
+//        List<ArticleCategory> articleCategoryList = articleCategoryService.mapper().selectByExample(articleCategoryExample);
+//        List<Integer> categoryIds = articleCategoryList.stream().map(articleCategory -> articleCategory.getCategoryId()).collect(Collectors.toList());
+//        List<String> categoryList = new ArrayList<>();
+//        if (categoryIds.size() != 0) {
+//            CategoryExample categoryExample = new CategoryExample();
+//            categoryExample.createCriteria().andIdIn(categoryIds);
+//            categoryList = categoryService.mapper().selectByExample(categoryExample)
+//                    .stream()
+//                    .map(tag -> tag.getName())
+//                    .collect(Collectors.toList());
+//        }
+//        articleVO.setTagList(tagList);
+//        articleVO.setCategoryList(categoryList);
     }
     public BaseTableMessage getSearchList(BaseTableMessage tableMessage) throws Exception {
         return null;
     }
 
-
-    public BaseResponse addArticle(AddArticleRequest request) {
+    @Transactional
+    public BaseResponse addArticle(SetArticleRequest request) {
         Article article = new Article();
         BeanUtils.copyProperties(request, article);
         insertSelective(article);
-        request.getCategoryIds().forEach(id -> {
-            Category category = categoryService.mapper().selectByPrimaryKey(id);
+        if (ObjectUtil.isEmpty(request.getCategoryList()) || ObjectUtil.isEmpty(request.getTagList())) {
+            throw new BusinessException("标签/类目不能为空", BaseErrors.REQUEST_PARAM_ERROR);
+        }
+        request.getCategoryList().forEach(category -> {
             if (category != null) {
                 ArticleCategory articleCategory = new ArticleCategory();
-                articleCategory.setSeqId(request.getCategoryIds().indexOf(id));
+                articleCategory.setSeqId(request.getCategoryList().indexOf(category));
                 articleCategory.setArticleId(article.getId());
                 articleCategory.setCategoryId(category.getId());
                 articleCategoryService.insertSelective(articleCategory);
             }
         });
-        request.getTagIds().forEach(id -> {
-            Tag tag = tagService.mapper().selectByPrimaryKey(id);
+        request.getTagList().forEach(tag -> {
             if (tag != null) {
                 ArticleTag articleTag = new ArticleTag();
-                articleTag.setSeqId(request.getCategoryIds().indexOf(id));
+                articleTag.setSeqId(request.getTagList().indexOf(tag));
                 articleTag.setArticleId(article.getId());
                 articleTag.setTagId(tag.getId());
                 articleTagService.insertSelective(articleTag);
@@ -162,20 +179,49 @@ public class ArticleService extends BaseService<Article, ArticleExample>{
         return new BaseResponse();
     }
 
-    public Article update(Article article) {
-        Article result = null;
-//        try {
-//            int row = articleMapper.update(article);
-//            if(row >= 1){
-//                result = articleMapper.getById(article.getId());
-//            }else{
-//                return null;
-//            }
-//        }catch (Exception e){
-//            e.printStackTrace();
-//        }
-        return result;
+    @Transactional
+    public BaseResponse updateArticle(SetArticleRequest request) {
+        if (ObjectUtil.isEmpty(request.getId())) {
+            return new BaseResponse();
+        }
+        Article article = new Article();
+        BeanUtils.copyProperties(request, article);
+        updateSelective(article);
+        ArticleCategoryExample articleCategoryExample = new ArticleCategoryExample();
+        articleCategoryExample.createCriteria().andArticleIdEqualTo(request.getId());
+        articleCategoryService.deleteByExample(articleCategoryExample);
+
+        ArticleTagExample articleTagExample = new ArticleTagExample();
+        articleTagExample.createCriteria().andArticleIdEqualTo(request.getId());
+        articleTagService.deleteByExample(articleTagExample);
+
+        request.getCategoryList().forEach(category -> {
+            if (category != null) {
+                if (category.getId() == null) {
+                    categoryService.mapper().insertSelective(category);
+                }
+                ArticleCategory articleCategory = new ArticleCategory();
+                articleCategory.setSeqId(request.getCategoryList().indexOf(category));
+                articleCategory.setArticleId(article.getId());
+                articleCategory.setCategoryId(category.getId());
+                articleCategoryService.insertSelective(articleCategory);
+            }
+        });
+        request.getTagList().forEach(tag -> {
+            if (tag.getId() == null) {
+                tagService.mapper().insertSelective(tag);
+            }
+            if (tag != null) {
+                ArticleTag articleTag = new ArticleTag();
+                articleTag.setSeqId(request.getTagList().indexOf(tag));
+                articleTag.setArticleId(article.getId());
+                articleTag.setTagId(tag.getId());
+                articleTagService.insertSelective(articleTag);
+            }
+        });
+        return new BaseResponse();
     }
+
 
     public BaseResponse deleteArticle(Integer id) {
         mapper().deleteByPrimaryKey(id);

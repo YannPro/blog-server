@@ -23,9 +23,15 @@ public class FriendLinkController {
         return friendLinkService.listFriendLink();
     }
 
+    @GetMapping("/{id}")
+    @ResponseBody
+    public BaseResponse<FriendLink> getFriendLinkById(@PathVariable(value = "id") Integer id){
+        return friendLinkService.getFriendLinkById(id);
+    }
+
     @PostMapping
     @ResponseBody
-    public BaseResponse addFriendLink(@Valid AddFriendLinkRequest request){
+    public BaseResponse addFriendLink(@Valid @RequestBody AddFriendLinkRequest request){
         return friendLinkService.addFriendLink(request);
     }
 

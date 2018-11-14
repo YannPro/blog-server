@@ -1,6 +1,8 @@
 package com.yannyao.blog.common.module.vo;
 
+import com.yannyao.blog.bean.Category;
 import com.yannyao.blog.bean.Tag;
+import com.yannyao.blog.common.module.dto.BaseDTO;
 import lombok.Data;
 import lombok.experimental.Accessors;
 
@@ -14,7 +16,7 @@ import java.util.List;
  */
 @Data
 @Accessors(chain = true)
-public class ArticleVO {
+public class ArticleVO extends BaseDTO {
     private String title;
 
     private String description;
@@ -41,7 +43,7 @@ public class ArticleVO {
 
     private String content;
 
-    private List<String> tagList;
+    private List<Tag> tagList;
 
-    private List<String> categoryList;
+    private List<Category> categoryList;
 }

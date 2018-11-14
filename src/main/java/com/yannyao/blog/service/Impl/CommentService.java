@@ -7,6 +7,7 @@ import com.yannyao.blog.common.exception.BusinessException;
 import com.yannyao.blog.common.module.vo.CommentVO;
 import com.yannyao.blog.common.request.AddCommentRequest;
 import com.yannyao.blog.common.request.IdRequest;
+import com.yannyao.blog.common.request.ListCommentRequest;
 import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.common.response.PageResponse;
 import com.yannyao.blog.common.util.ObjectUtil;
@@ -68,6 +69,31 @@ public class CommentService extends BaseService<Comment, CommentExample>{
         return response;
     }
 
+    /**
+     * 获取评论列表 根据时间排序
+     * @param request
+     * @return
+     */
+    public PageResponse<CommentVO> listComment (ListCommentRequest request) {
+        List<CommentVO> commentVOList = new ArrayList<>();
+        CommentExample commentExample = new CommentExample();
+        commentExample.createCriteria().andTypeEqualTo(0);
+        commentExample.setOrderByClause("create_time desc");
+        List<Comment> commentList = mapper().selectByExample(commentExample);
+        commentList.forEach(comment -> {
+            CommentVO commentVO = new CommentVO();
+            BeanUtils.copyProperties(comment, commentVO);
+            if (comment.getReplyUserId() != null) {
+                commentVO.setReplyUser(userService.getUser(comment.getReplyUserId()).getData());
+            }
+            commentVO.setUser(userService.getUser(comment.getUserId()).getData());
+            commentVOList.add(commentVO);
+        });
+
+        PageResponse<CommentVO> response = new PageResponse<>();
+        response.setData(commentVOList);
+        return response;
+    }
     @Transactional
     public BaseResponse addComment (AddCommentRequest request) {
         Comment comment = new Comment();

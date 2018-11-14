@@ -4,7 +4,7 @@ import com.yannyao.blog.bean.Article;
 import com.yannyao.blog.bean.BaseTableMessage;
 import com.yannyao.blog.bean.Message;
 import com.yannyao.blog.common.module.vo.ArticleVO;
-import com.yannyao.blog.common.request.AddArticleRequest;
+import com.yannyao.blog.common.request.SetArticleRequest;
 import com.yannyao.blog.common.request.ListArticleRequest;
 import com.yannyao.blog.common.response.BaseResponse;
 import com.yannyao.blog.common.response.PageResponse;
@@ -79,33 +79,18 @@ public class ArticleController {
 //        System.out.println(tableMessage);
 //        return articleService.getSearchList(tableMessage).result();
 //    }
+
     @PostMapping
     @ResponseBody
-    public BaseResponse addArticle(@RequestBody AddArticleRequest request){
+    public BaseResponse addArticle(@RequestBody SetArticleRequest request){
         return articleService.addArticle(request);
     }
-//
-//    /**
-//     * 修改文章
-//     * @param article
-//     * @return
-//     */
-//    @RequestMapping(value = "/{id}", method = RequestMethod.PUT)
-//    @ResponseBody
-//    public Message update(@PathVariable("id") Integer id, @RequestBody Article article){
-//        try {
-//            article.setId(id);
-//            Article result = articleService.update(article);
-//            if(result != null){
-//                return new Message(Message.SUCCESS,"修改文章成功！",result);
-//            }else{
-//                return new Message(Message.ERROR,"修改文章失败！",null);
-//            }
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return new Message(Message.ERROR,"修改文章失败！",null);
-//        }
-//    }
+
+    @PutMapping
+    @ResponseBody
+    public BaseResponse updateArticle(@RequestBody SetArticleRequest request){
+        return articleService.updateArticle(request);
+    }
 
     @DeleteMapping("/{id}")
     @ResponseBody

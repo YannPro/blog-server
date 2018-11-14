@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<configuration>
+	<springProperty scope="context" name="root.log.level"
+		source="root.log.level" />
+	<springProperty scope="context" name="root.log.path"
+		source="root.log.path" />
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<encoder>
+			<pattern>%d{HH:mm:ss.SSS} [%level] %logger{0} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="ROOT_FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${root.log.path}/devcon-biz.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>
+				${root.log.path}/ymcf.%d{yyyy-MM-dd}.log.zip
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} [%level] %logger{0} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="SPRING_FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${root.log.path}/ymcf-spring.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${root.log.path}/ymcf-spring.%d{yyyy-MM-dd}.log.zip
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} [%level] %logger{0} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<appender name="TRACE_FILE"
+		class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>${root.log.path}/ymcf-trace.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>${root.log.path}/ymcf-trace.%d{yyyy-MM-dd}.log.zip
+			</fileNamePattern>
+		</rollingPolicy>
+		<encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+			<pattern>%d{HH:mm:ss.SSS} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	<root level="${root.log.level}">
+		<appender-ref ref="ROOT_FILE" />
+	</root>
+	<logger name="trace-log" level="INFO" additivity="false">
+		<appender-ref ref="TRACE_FILE" />
+	</logger>
+	<logger name="org.springframework" level="INFO" additivity="false">
+		<appender-ref ref="SPRING_FILE" />
+	</logger>
+</configuration> 

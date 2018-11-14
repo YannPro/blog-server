@@ -24,9 +24,9 @@ public class CategoryController {
         return categoryService.listCategory();
     }
 
-    @PostMapping("/addCategory")
+    @PostMapping
     @ResponseBody
-    public BaseResponse addCategory(@Valid AddCategoryRequest request){
+    public BaseResponse addCategory(@Valid @RequestBody AddCategoryRequest request){
         return categoryService.addCategory(request);
     }
 

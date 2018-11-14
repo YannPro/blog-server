@@ -5,6 +5,8 @@ import java.util.Date;
 public class Article extends BaseBean {
     private String title;
 
+    private String content;
+
     private String description;
 
     private Integer adminId;
@@ -27,14 +29,20 @@ public class Article extends BaseBean {
 
     private Date updateTime;
 
-    private String content;
-
     public String getTitle() {
         return title;
     }
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
     }
 
     public String getDescription() {
@@ -123,13 +131,5 @@ public class Article extends BaseBean {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
     }
 }

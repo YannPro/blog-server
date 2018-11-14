@@ -37,6 +37,12 @@ public class FriendLinkService extends BaseService<FriendLink, FriendLinkExample
         return response.setData(friendLinkList);
     }
 
+    public BaseResponse<FriendLink> getFriendLinkById (Integer id) {
+        BaseResponse<FriendLink> response = new BaseResponse<>();
+        FriendLink friendLink = mapper().selectByPrimaryKey(id);
+        return response.setData(friendLink);
+    }
+
     @Transactional
     public BaseResponse<FriendLink> addFriendLink (AddFriendLinkRequest request) {
         FriendLink friendLink = new FriendLink();

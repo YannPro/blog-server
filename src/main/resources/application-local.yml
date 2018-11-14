@@ -3,15 +3,26 @@ server:
   session:
     timeout: 1800000
 
+
+
 spring:
   datasource:
     driver-class-name: com.mysql.jdbc.Driver
     username: root
-    password: yimo0011
-    url: jdbc:mysql://127.0.0.1/blog?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
-    ip: 127.0.0.1
+    password: 123456
+    url: jdbc:mysql://101.132.140.132/blog?characterEncoding=UTF-8&useSSL=false&serverTimezone=GMT%2B8
     port: 3306
     database: blog
+
+
+
+  #Dubbo 服务消费者配置
+  dubbo:
+    application:
+      name: consumer
+    registry:
+      address: zookeeper://127.0.0.1:2181
+    scan: com.yannyao.web.dubbo
 
   #es
   data:
@@ -30,11 +41,15 @@ spring:
       max-file-size: 50MB
       max-request-size: 50MB
 
+logging:
+  config: classpath:logback-boot-local.xml
+
 mybatis:
   mapper-locations: classpath:mapper/*.xml
   type-aliases-package: com.yannyao.blog.mapper
   configuration:
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
 
 com:
   yannyao:
