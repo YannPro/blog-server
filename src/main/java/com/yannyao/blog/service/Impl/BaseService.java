@@ -50,17 +50,17 @@ public abstract class BaseService<D extends BaseBean, Ex> {
 //        }
     }
 
-    public int insertSelective(D d) {
+    public D insertSelective(D d) {
         //由于ID不是自增 所有domain都需要继承BaseDomain
 //        d.setId(UniqueDBIndexUtil.generate());
-        int insert = mapper().insertSelective(d);
+        mapper().insertSelective(d);
 //        DTO dto = transfer(d);
 //        if (insert > 0 && cacheClient() != null) {
 //            cacheClient().put(dto);
 //        } else {
 //            //TODO:异常待处理
 //        }
-        return insert;
+        return d;
     }
 
     public int updateSelective(D d) {
